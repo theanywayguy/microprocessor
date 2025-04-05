@@ -1,0 +1,2797 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Microprocessor Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .correct {
+        color: #10b981;
+      }
+      .incorrect {
+        color: #ef4444;
+      }
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        z-index: 50;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="max-w-4xl mx-auto p-6">
+      <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        Microprocessor Quiz
+      </h1>
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="flex justify-center mb-4">
+          <label for="modelSelect" class="mr-2 text-lg text-gray-700"
+            >Select Quiz Model:</label
+          >
+          <select id="modelSelect" class="p-2 border rounded-lg">
+            <option value="model1">Model 1</option>
+            <option value="model2">Model 2</option>
+            <option value="model3">Model 3</option>
+            <option value="model4">Model 4</option>
+          </select>
+        </div>
+        <div id="score" class="text-lg text-gray-700 mb-4">Score: 0/50</div>
+        <div id="questionArea" class="mb-6"></div>
+        <div id="explanation" class="p-4 border rounded-lg hidden"></div>
+        <div class="flex justify-center space-x-4 mt-4">
+          <button
+            id="submitBtn"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Submit Answer
+          </button>
+          <button
+            id="resetBtn"
+            class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition"
+          >
+            Reset Quiz
+          </button>
+          <button
+            id="randomBtn"
+            class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+          >
+            Randomize Questions
+          </button>
+        </div>
+        <table class="w-full mt-6 border-collapse">
+          <thead>
+            <tr class="bg-green-600 text-white">
+              <th class="border p-2">Question #</th>
+              <th class="border p-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="text-gray-700"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="overlay" class="overlay"></div>
+    <div id="popup" class="popup">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Quiz Completed!</h2>
+      <p id="popupScore" class="text-lg mb-4"></p>
+      <button
+        id="retryWrongBtn"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+      >
+        Retry Wrong Questions
+      </button>
+      <button
+        id="closePopupBtn"
+        class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition ml-2"
+      >
+        Close
+      </button>
+    </div>
+
+    <script>
+      const questionsModel1 = [
+        {
+          question:
+            "What is the primary difference between a microprocessor and a microcontroller?",
+          options: [
+            "A microprocessor contains only a CPU, while a microcontroller includes CPU, memory, and I/O on a single chip.",
+            "A microprocessor is used for specific purposes, while a microcontroller is used for general purposes.",
+            "A microprocessor has a smaller memory capacity than a microcontroller.",
+            "A microcontroller is faster than a microprocessor.",
+            "A microprocessor supports bit addressability, while a microcontroller does not.",
+          ],
+          correct: 0,
+          explanation:
+            "The document states that a microprocessor contains only the CPU, with memory, I/O, and timers provided separately, whereas a microcontroller integrates the CPU, memory, I/O, and timers on a single chip.",
+        },
+        {
+          question: "What is a byte in the context of computing?",
+          options: [
+            "A 16-bit binary number",
+            "An 8-bit binary number",
+            "A 4-bit binary number",
+            "A 32-bit binary number",
+            "A 64-bit binary number",
+          ],
+          correct: 1,
+          explanation:
+            "According to the document, a byte is defined as an 8-bit binary number, which is also equivalent to a 2-digit hexadecimal number.",
+        },
+        {
+          question:
+            "Why is the hexadecimal number system preferred over the decimal number system in computing?",
+          options: [
+            "Hexadecimal numbers are shorter to write.",
+            "Hexadecimal numbers require fewer bits to represent values.",
+            "Hexadecimal numbers directly map to binary, making conversions simpler.",
+            "Decimal numbers are incompatible with computer hardware.",
+            "Hexadecimal numbers are used exclusively in high-level languages.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that hexadecimal is preferred because each hexadecimal digit corresponds to four binary digits, simplifying conversions between binary and hexadecimal without complex calculations.",
+        },
+        {
+          question: "What is the role of an assembler in programming?",
+          options: [
+            "It translates high-level language code into machine code.",
+            "It translates assembly language code into machine code.",
+            "It executes code line by line.",
+            "It links multiple object files into an executable.",
+            "It manages memory allocation during execution.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes an assembler as a tool that converts assembly language (low-level) into machine code (binary) and checks for syntax errors.",
+        },
+        {
+          question: "Which of the following best describes a compiler?",
+          options: [
+            "It translates and executes code line by line.",
+            "It translates the entire source code into machine code before execution.",
+            "It combines multiple object files into a single executable.",
+            "It manages hardware interrupts.",
+            "It generates assembly code from high-level language.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that a compiler translates the entire source code (high-level language) into machine code before execution and checks for syntax errors.",
+        },
+        {
+          question:
+            "What is the main difference between a compiler and an interpreter?",
+          options: [
+            "A compiler translates code line by line, while an interpreter translates the entire code at once.",
+            "A compiler generates machine code, while an interpreter generates assembly code.",
+            "A compiler translates the entire code before execution, while an interpreter translates and executes line by line.",
+            "A compiler is slower than an interpreter.",
+            "A compiler requires less memory than an interpreter.",
+          ],
+          correct: 2,
+          explanation:
+            "The document highlights that a compiler translates the entire source code into machine code before execution, whereas an interpreter translates and executes code line by line at runtime.",
+        },
+        {
+          question:
+            "What is the purpose of a linker in the programming process?",
+          options: [
+            "It translates high-level language to machine code.",
+            "It combines multiple object files into a single executable.",
+            "It executes code line by line.",
+            "It manages memory allocation.",
+            "It generates assembly code.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that a linker combines multiple object files into a single executable and resolves function calls and dependencies among different program modules.",
+        },
+        {
+          question:
+            "In the context of interrupt handling, what is a daisy chain?",
+          options: [
+            "A method where devices are connected in series, and the interrupt request passes from one device to another.",
+            "A method where the CPU checks each device sequentially for service requests.",
+            "A method where each device sends an independent interrupt signal to the CPU.",
+            "A method used for direct memory access.",
+            "A method for prioritizing software interrupts.",
+          ],
+          correct: 0,
+          explanation:
+            "The document describes the daisy chain as a serial priority system where devices are connected in series, and the interrupt request passes from one device to another in a chain.",
+        },
+        {
+          question: "What is polling in the context of interrupt handling?",
+          options: [
+            "A method where devices are connected in series.",
+            "A method where the CPU checks each device sequentially to see if it needs service.",
+            "A method where each device sends an independent interrupt signal.",
+            "A method used for direct memory access.",
+            "A method for handling non-maskable interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document defines polling as a method where the CPU checks each device sequentially to see if it needs service, using continuous or periodic checking instead of interrupts.",
+        },
+        {
+          question:
+            "What is the independent request method in interrupt handling?",
+          options: [
+            "A method where devices are connected in series.",
+            "A method where the CPU checks each device sequentially.",
+            "A method where each device sends an independent interrupt signal to the CPU.",
+            "A method used for direct memory access.",
+            "A method for handling software interrupts.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that in the independent request method, each device sends an independent interrupt signal to the CPU, and the CPU uses a priority encoder to determine which request to service first.",
+        },
+        {
+          question:
+            "Which component of the MU0 processor holds the address of the current instruction?",
+          options: [
+            "Accumulator (ACC)",
+            "Instruction Register (IR)",
+            "Program Counter (PC)",
+            "Arithmetic-Logic Unit (ALU)",
+            "Control Logic",
+          ],
+          correct: 2,
+          explanation:
+            "The document states that the program counter (PC) register in the MU0 processor holds the address of the current instruction.",
+        },
+        {
+          question:
+            "What is the size of the address space in the MU0 processor?",
+          options: [
+            "4,096 bytes",
+            "8,192 bytes",
+            "16,384 bytes",
+            "32,768 bytes",
+            "65,536 bytes",
+          ],
+          correct: 0,
+          explanation:
+            "The document mentions that the MU0 is a 16-bit machine with a 12-bit address space, allowing it to address up to 4,096 individually addressable 16-bit locations (since \(2^{12} = 4,096\)).",
+        },
+        {
+          question:
+            "Which of the following is NOT a feature of the 8086 microprocessor?",
+          options: [
+            "16-bit ALU",
+            "16-bit data bus",
+            "20-bit address bus",
+            "Pipelining support",
+            "8-bit data bus",
+          ],
+          correct: 4,
+          explanation:
+            "The document lists the features of the 8086, including a 16-bit ALU, 16-bit data bus, 20-bit address bus, and pipelining support. An 8-bit data bus is a feature of the older 8085 microprocessor, not the 8086.",
+        },
+        {
+          question:
+            "What is pipelining in the context of the 8086 microprocessor?",
+          options: [
+            "Executing multiple instructions simultaneously to increase speed",
+            "Dividing memory into segments for better management",
+            "Using multiple ALUs for parallel processing",
+            "Increasing the clock speed of the processor",
+            "Reducing the number of registers to simplify design",
+          ],
+          correct: 0,
+          explanation:
+            "The document explains that pipelining in the 8086 allows multiple instructions to be executed in parallel, increasing the execution speed of the microprocessor.",
+        },
+        {
+          question:
+            "In the 8086 microprocessor, what is the purpose of memory banking?",
+          options: [
+            "To increase the total memory capacity",
+            "To allow simultaneous access to even and odd memory addresses",
+            "To reduce power consumption",
+            "To simplify memory addressing",
+            "To enable faster data transfer rates",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes memory banking in the 8086 as bisecting the memory into two banks (even and odd) to allow the 16-bit data bus to access two bytes (one from each bank) simultaneously in one machine cycle.",
+        },
+        {
+          question:
+            "Which flag in the 8086 flag register is used to detect a carry in addition or borrow in subtraction?",
+          options: [
+            "Zero Flag (ZF)",
+            "Sign Flag (SF)",
+            "Carry Flag (CF)",
+            "Overflow Flag (OF)",
+            "Parity Flag (PF)",
+          ],
+          correct: 2,
+          explanation:
+            "The document states that the Carry Flag (CF) is used in arithmetic operations to detect a carry in addition or borrow in subtraction.",
+        },
+        {
+          question:
+            "What does the Parity Flag (PF) in the 8086 flag register indicate?",
+          options: [
+            "Whether the result is zero",
+            "Whether the result is negative",
+            "Whether the number of 1s in the result is even or odd",
+            "Whether there is an overflow in signed arithmetic",
+            "Whether there is a carry from bit 3 to bit 4",
+          ],
+          correct: 2,
+          explanation:
+            "According to the document, the Parity Flag (PF) checks the evenness of 1s in the result; if even, PF=1; otherwise, PF=0.",
+        },
+        {
+          question:
+            "In the 8086 microprocessor, what is the purpose of memory segmentation?",
+          options: [
+            "To increase the physical memory size",
+            "To allow the use of 16-bit registers to address 1MB of memory",
+            "To reduce the complexity of the ALU",
+            "To enable faster clock speeds",
+            "To simplify the instruction set",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that memory segmentation in the 8086 allows the use of 16-bit registers to address a 20-bit physical address space (1MB) by dividing memory into segments.",
+        },
+        {
+          question:
+            "How is the physical address calculated in the 8086 microprocessor?",
+          options: [
+            "Physical Address = Segment Register + Offset Pointer",
+            "Physical Address = Segment Register * Offset Pointer",
+            "Physical Address = Segment Register * 10H + Offset Pointer",
+            "Physical Address = Offset Pointer * 10H + Segment Register",
+            "Physical Address = Segment Register + Offset Pointer * 10H",
+          ],
+          correct: 2,
+          explanation:
+            "The document provides the formula for calculating the physical address as PA = SR * 10H + OP, where SR is the segment register and OP is the offset pointer.",
+        },
+        {
+          question:
+            "What is the maximum size of a segment in the 8086 memory segmentation?",
+          options: ["16KB", "32KB", "64KB", "128KB", "256KB"],
+          correct: 2,
+          explanation:
+            "The document states that since the offset pointer is 16 bits, the maximum size of any segment is \(2^{16} = 65,536\) bytes, which is 64KB.",
+        },
+        {
+          question:
+            "Which of the following is NOT an advantage of memory segmentation in the 8086?",
+          options: [
+            "Easier memory management",
+            "Backward compatibility with the 8085",
+            "Avoidance of memory overlap",
+            "Increased execution speed",
+            "Easier debugging",
+          ],
+          correct: 3,
+          explanation:
+            "The document lists advantages of memory segmentation, including easier memory management, backward compatibility, avoidance of memory overlap, and easier debugging. Increased execution speed is not mentioned as a direct advantage of segmentation.",
+        },
+        {
+          question:
+            "What is the purpose of the 8284 chip in relation to the 8086 microprocessor?",
+          options: [
+            "To provide memory management",
+            "To generate clock signals for the 8086",
+            "To handle interrupt requests",
+            "To manage data transfer between memory and I/O",
+            "To decode instructions",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8284 is designed to generate clock signals for the 8086/8088 microprocessors, providing clock, reset, and ready signals.",
+        },
+        {
+          question:
+            "In the 8086, which register is primarily used for arithmetic and logic operations?",
+          options: [
+            "AX (Accumulator)",
+            "BX (Base Register)",
+            "CX (Count Register)",
+            "DX (Data Register)",
+            "SI (Source Index)",
+          ],
+          correct: 0,
+          explanation:
+            "The document states that the AX register is the main register for arithmetic, logic, and data transfer operations in the 8086.",
+        },
+        {
+          question: "What is the role of the Stack Pointer (SP) in the 8086?",
+          options: [
+            "To hold the address of the next instruction",
+            "To point to the top of the stack",
+            "To store temporary data",
+            "To hold the base address of the data segment",
+            "To manage interrupt requests",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the Stack Pointer (SP) points to the top of the stack and is updated during PUSH and POP operations.",
+        },
+        {
+          question:
+            "Which flag in the 8086 flag register is used to enable or disable external hardware interrupts?",
+          options: [
+            "Trap Flag (TF)",
+            "Interrupt Enable Flag (IF)",
+            "Direction Flag (DF)",
+            "Overflow Flag (OF)",
+            "Carry Flag (CF)",
+          ],
+          correct: 1,
+          explanation:
+            "According to the document, the Interrupt Enable Flag (IF) enables (IF=1) or disables (IF=0) external hardware interrupts.",
+        },
+        {
+          question:
+            "In the 8086 architecture, what is the function of the Bus Interface Unit (BIU)?",
+          options: [
+            "To execute instructions",
+            "To decode instructions",
+            "To fetch instructions and data from memory",
+            "To perform arithmetic operations",
+            "To manage the flag register",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes the BIU as responsible for establishing communications with external peripheral devices and memory, including fetching instructions from memory.",
+        },
+        {
+          question:
+            "What is the purpose of the instruction queue in the BIU of the 8086?",
+          options: [
+            "To store data temporarily",
+            "To hold prefetched instructions for pipelining",
+            "To manage interrupt requests",
+            "To decode instructions",
+            "To store segment addresses",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the BIU prefetches six instruction bytes in advance and stores them in the instruction queue, enabling pipelining by allowing the EU to execute instructions while the BIU fetches the next ones.",
+        },
+        {
+          question:
+            "Which segment register in the 8086 holds the starting address of the code segment?",
+          options: [
+            "DS (Data Segment)",
+            "SS (Stack Segment)",
+            "ES (Extra Segment)",
+            "CS (Code Segment)",
+            "IP (Instruction Pointer)",
+          ],
+          correct: 3,
+          explanation:
+            "The document states that the Code Segment Register (CS) holds the starting address of the code segment, which stores the executable instructions of a program.",
+        },
+        {
+          question: "What is the role of the Execution Unit (EU) in the 8086?",
+          options: [
+            "To fetch instructions from memory",
+            "To manage the system bus",
+            "To decode and execute instructions",
+            "To generate clock signals",
+            "To handle interrupt requests",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes the EU as responsible for picking up instructions from the instruction queue, decoding them, and executing them.",
+        },
+        {
+          question:
+            "In the 8086 pin diagram, what does the ALE (Address Latch Enable) signal indicate?",
+          options: [
+            "That the address is ready on the bus",
+            "That data is ready to be read",
+            "That an interrupt has been acknowledged",
+            "That the processor is in halt state",
+            "That the bus is locked",
+          ],
+          correct: 0,
+          explanation:
+            "The document mentions that ALE indicates that the address is ready on the bus in minimum mode.",
+        },
+        {
+          question:
+            "What is the purpose of the NMI (Non-Maskable Interrupt) pin in the 8086?",
+          options: [
+            "To handle maskable interrupts",
+            "To reset the microprocessor",
+            "To provide a high-priority interrupt that cannot be disabled",
+            "To synchronize with external devices",
+            "To enable direct memory access",
+          ],
+          correct: 2,
+          explanation:
+            "The document states that NMI is used to give the highest priority interrupt to the microprocessor, which cannot be disabled by software.",
+        },
+        {
+          question:
+            "In minimum mode, how does the 8086 handle bus requests from other devices?",
+          options: [
+            "Using the LOCK signal",
+            "Using the RQ/GT signals",
+            "Using the HOLD and HLDA signals",
+            "Using the INTR and INTA signals",
+            "Using the READY signal",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that in minimum mode, if another device wants to use the bus, it asks the 8086 with the HOLD signal, and the 8086 responds with HLDA (Hold Acknowledge).",
+        },
+        {
+          question:
+            "What is the main difference between minimum and maximum modes in the 8086?",
+          options: [
+            "Minimum mode supports pipelining, while maximum mode does not.",
+            "Minimum mode is for single-processor systems, while maximum mode is for multi-processor systems.",
+            "Minimum mode uses a 16-bit data bus, while maximum mode uses a 20-bit data bus.",
+            "Minimum mode has fewer registers than maximum mode.",
+            "Minimum mode does not support memory segmentation.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes minimum mode as used for simple setups with the 8086 as the only processor, while maximum mode is for systems with multiple processors or coprocessors.",
+        },
+        {
+          question: "In maximum mode, what is the purpose of the LOCK signal?",
+          options: [
+            "To reset the microprocessor",
+            "To prevent bus access to other processors during critical operations",
+            "To enable interrupt handling",
+            "To synchronize with the coprocessor",
+            "To indicate that the bus is ready",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the LOCK signal is used to prevent bus access to other processors until the current instruction completes, ensuring atomic execution.",
+        },
+        {
+          question:
+            "Which addressing mode uses a constant value embedded in the instruction?",
+          options: [
+            "Register Addressing",
+            "Direct Addressing",
+            "Immediate Addressing",
+            "Indirect Addressing",
+            "Indexed Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines immediate addressing as the mode where the operand is a constant value embedded in the instruction.",
+        },
+        {
+          question:
+            "In register addressing mode, where is the operand located?",
+          options: [
+            "In memory",
+            "In a register",
+            "In the instruction itself",
+            "In the stack",
+            "In the I/O port",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that in register addressing, the operand is located in a register.",
+        },
+        {
+          question: "What is direct addressing mode?",
+          options: [
+            "The operand is at a fixed memory address.",
+            "The operand's address is stored in a register.",
+            "The operand is a constant value in the instruction.",
+            "The operand's address is calculated using a base register and an offset.",
+            "The operand is accessed relative to the instruction pointer.",
+          ],
+          correct: 0,
+          explanation:
+            "According to the document, direct addressing mode involves the operand being at a fixed memory address.",
+        },
+        {
+          question:
+            "In indirect addressing mode, how is the operand's address determined?",
+          options: [
+            "It is a constant value in the instruction.",
+            "It is stored in a register or memory location.",
+            "It is calculated using a base register and an offset.",
+            "It is relative to the instruction pointer.",
+            "It is directly specified in the instruction.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that in indirect addressing, the operand's address is stored in a register or memory location.",
+        },
+        {
+          question: "What is the purpose of the READY signal in the 8086?",
+          options: [
+            "To reset the microprocessor",
+            "To insert wait states into the timing cycle",
+            "To acknowledge interrupts",
+            "To enable the bus for data transfer",
+            "To indicate that the processor is in minimum mode",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the READY input is used to insert wait states into the timing cycle of the microprocessor to synchronize with slow peripheral devices.",
+        },
+        {
+          question:
+            "Which of the following is true about the 8086's memory banking?",
+          options: [
+            "It divides memory into four banks.",
+            "It allows accessing two bytes simultaneously from even and odd banks.",
+            "It is used to increase the address space beyond 1MB.",
+            "It is only used in maximum mode.",
+            "It requires additional hardware for implementation.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes memory banking in the 8086 as dividing memory into even and odd banks to allow the 16-bit data bus to access two bytes (one from each bank) in one machine cycle.",
+        },
+        {
+          question: "What is the function of the Trap Flag (TF) in the 8086?",
+          options: [
+            "To detect arithmetic overflow",
+            "To enable single-step execution for debugging",
+            "To indicate the direction of string operations",
+            "To enable or disable interrupts",
+            "To check for parity errors",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Trap Flag (TF) enables single-step execution for debugging; when set, the processor executes one instruction at a time and generates an interrupt.",
+        },
+        {
+          question:
+            "In the 8086, which register is used to store the offset address for the code segment?",
+          options: ["CS", "IP", "SP", "BP", "SI"],
+          correct: 1,
+          explanation:
+            "The document mentions that the Instruction Pointer (IP) holds the offset value of the next instruction to be executed within the code segment.",
+        },
+        {
+          question:
+            "What is the purpose of the Direction Flag (DF) in the 8086?",
+          options: [
+            "To indicate if the result is zero",
+            "To control the direction of string operations",
+            "To enable or disable interrupts",
+            "To detect carry in arithmetic operations",
+            "To indicate signed arithmetic overflow",
+          ],
+          correct: 1,
+          explanation:
+            "According to the document, the Direction Flag (DF) controls the direction of string operations; DF=0 for forward (auto-increment), DF=1 for backward (auto-decrement).",
+        },
+        {
+          question: "In the 8086, what is the role of the Base Pointer (BP)?",
+          options: [
+            "To point to the top of the stack",
+            "To hold the address of the next instruction",
+            "To access function parameters and local variables within the stack",
+            "To store temporary data for arithmetic operations",
+            "To manage memory segmentation",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the Base Pointer (BP) helps access function parameters and local variables within the stack.",
+        },
+        {
+          question:
+            "Which of the following is NOT a component of the MU0 processor?",
+          options: [
+            "Program Counter (PC)",
+            "Accumulator (ACC)",
+            "Instruction Register (IR)",
+            "Arithmetic-Logic Unit (ALU)",
+            "Stack Pointer (SP)",
+          ],
+          correct: 4,
+          explanation:
+            "The document lists the components of the MU0 processor as PC, ACC, IR, ALU, and control logic, but does not mention a Stack Pointer.",
+        },
+        {
+          question:
+            "In the 8086, what is the purpose of the Extra Segment (ES) register?",
+          options: [
+            "To store executable instructions",
+            "To manage stack operations",
+            "To hold global variables and constants",
+            "To provide an additional data segment for string operations",
+            "To control interrupt handling",
+          ],
+          correct: 3,
+          explanation:
+            "The document states that the Extra Segment (ES) is used as an additional data segment, mainly for string operations.",
+        },
+        {
+          question:
+            "What is the clock frequency generated by the 8284 for the 8086 if the crystal frequency is 15 MHz?",
+          options: ["5 MHz", "7.5 MHz", "10 MHz", "15 MHz", "30 MHz"],
+          correct: 0,
+          explanation:
+            "The document explains that the 8284 divides the crystal frequency by three to generate the clock for the 8086. Therefore, \(15 \, \text{MHz} / 3 = 5 \, \text{MHz}\).",
+        },
+        {
+          question:
+            "In the 8086, which pin is used to reset the microprocessor?",
+          options: ["NMI", "INTR", "RESET", "READY", "TEST"],
+          correct: 2,
+          explanation:
+            "The document mentions that the RESET input is used to reset the microprocessor 8086.",
+        },
+        {
+          question: "What is the purpose of the TEST pin in the 8086?",
+          options: [
+            "To reset the microprocessor",
+            "To synchronize with external devices",
+            "To enable single-step execution",
+            "To acknowledge interrupts",
+            "To indicate that the bus is locked",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the TEST pin is used for synchronization; when it is logic 0, the 8086 executes the WAIT instruction.",
+        },
+        {
+          question: "In the 8086, what is the function of the HOLD signal?",
+          options: [
+            "To request the use of the system bus by another device",
+            "To acknowledge an interrupt request",
+            "To indicate that the processor is ready",
+            "To lock the bus for critical operations",
+            "To reset the microprocessor",
+          ],
+          correct: 0,
+          explanation:
+            "The document explains that the HOLD signal indicates that another device is requesting the use of the system bus, and the processor must release the bus when this signal is active.",
+        },
+      ];
+
+      // New question set (Model 2)
+      const questionsModel2 = [
+        {
+          question:
+            "What is the main purpose of the Instruction Pointer (IP) in the 8086?",
+          options: [
+            "To store the address of the current instruction being executed",
+            "To hold the offset address of the next instruction to be fetched",
+            "To manage stack operations",
+            "To store temporary data for arithmetic operations",
+            "To point to the top of the stack",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE9 states, 'IP holds the address of next instruction which is to be executed next. It contains the OFFSET value of next Address.'",
+        },
+        {
+          question:
+            "Which of the following is a key advantage of using hexadecimal over decimal in computing?",
+          options: [
+            "It requires fewer bits to represent values",
+            "It eliminates the need for binary arithmetic",
+            "It directly corresponds to binary, simplifying conversions",
+            "It is more compatible with high-level languages",
+            "It reduces memory usage",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE1 explains, 'With hexadecimal digits (0-F), it needs 4 bits to represents each digit… decimal to binary conversion is required… which is not required in Hexadecimal system.'",
+        },
+        {
+          question:
+            "What does the Accumulator (ACC) in the MU0 processor primarily do?",
+          options: [
+            "Holds the address of the current instruction",
+            "Stores a data value being processed",
+            "Fetches instructions from memory",
+            "Decodes instructions",
+            "Manages interrupt requests",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE3 states, 'a single register called an accumulator (ACC) that holds a data value while it is worked upon.'",
+        },
+        {
+          question:
+            "In the 8086, what is the role of the Bus High Enable (BHE) signal?",
+          options: [
+            "To indicate that an address is ready on the bus",
+            "To enable the upper byte (D15-D8) of the data bus",
+            "To acknowledge an interrupt request",
+            "To reset the microprocessor",
+            "To synchronize with external devices",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE10 notes, 'Bus High Enable - [BHE/S7]… This line is used to enable D15-D8 of D15-D0… used by Microprocessor for memory banking.'",
+        },
+        {
+          question:
+            "What is the primary function of the 8288 bus controller in maximum mode?",
+          options: [
+            "To generate clock signals for the 8086",
+            "To fetch instructions from memory",
+            "To generate control signals based on status signals (S0, S1, S2)",
+            "To manage memory segmentation",
+            "To handle arithmetic operations",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE14 states, 'Status Signals (S0, S1, S2): These signals are used by the 8288 Bus Controller to generate necessary control signals.'",
+        },
+        {
+          question: "Which register in the 8086 is used as a loop counter?",
+          options: ["AX", "BX", "CX", "DX", "SI"],
+          correct: 2,
+          explanation:
+            "PAGE7 explains, 'CX (Count Register)… Stores loop counters for repetitive operations (e.g., LOOP instruction).'",
+        },
+        {
+          question:
+            "What is the size of a word in the context of the 8086 microprocessor?",
+          options: ["8 bits", "16 bits", "20 bits", "32 bits", "64 bits"],
+          correct: 1,
+          explanation:
+            "PAGE1 defines, 'Word: It is 16 bits Binary number. It is also 4-digit Hex number.'",
+        },
+        {
+          question:
+            "In the 8086, what happens when the RESET pin is activated for 4 clock cycles?",
+          options: [
+            "The processor enters maximum mode",
+            "The CS and IP are initialized to FFFFH and 0000H",
+            "The instruction queue is flushed",
+            "The ALU is disabled",
+            "The stack pointer is set to FFFFH",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE11 states, 'After RESET of 8086, CS and IP initialized to FFFFH and 0000H, so physical address will be FFFFOH.'",
+        },
+        {
+          question:
+            "Which of the following is a disadvantage of the daisy chain interrupt method?",
+          options: [
+            "It requires separate interrupt lines for each device",
+            "It is slower than polling",
+            "If a high-priority device fails, lower-priority devices may not be serviced",
+            "It cannot handle multiple devices",
+            "It consumes excessive CPU time",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE2 notes, 'Disadvantage: If a high-priority device fails, lower-priority devices might not get serviced.'",
+        },
+        {
+          question:
+            "What is the purpose of the Auxiliary Carry Flag (AF) in the 8086?",
+          options: [
+            "To detect a carry in addition",
+            "To indicate a carry from bit 3 to bit 4 in BCD arithmetic",
+            "To check the evenness of 1s in the result",
+            "To enable single-step execution",
+            "To signal an overflow in signed arithmetic",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE4 states, 'Auxiliary Carry Flag (AF): Used in Binary Coded Decimal (BCD) arithmetic. Set if there is a carry from bit 3 to bit 4.'",
+        },
+        {
+          question:
+            "Which component of the 8086 fetches instructions from memory?",
+          options: [
+            "Execution Unit (EU)",
+            "Arithmetic-Logic Unit (ALU)",
+            "Bus Interface Unit (BIU)",
+            "Instruction Register (IR)",
+            "Control Unit",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE8 explains, 'BIU is responsible for establishing communications with external peripheral devices and memory… It fetches the instructions from Memory.'",
+        },
+        {
+          question:
+            "What is the maximum memory addressable by the 8086 microprocessor?",
+          options: ["64 KB", "256 KB", "512 KB", "1 MB", "2 MB"],
+          correct: 3,
+          explanation:
+            "PAGE3 states, '8086 has 20 bits of Address bus… we can interface total memory by… 1 MB.'",
+        },
+        {
+          question: "In the 8086, what does the Direction Flag (DF) control?",
+          options: [
+            "The enabling of interrupts",
+            "The direction of string operations",
+            "The detection of arithmetic overflow",
+            "The parity of the result",
+            "The execution speed",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE5 explains, 'Direction Flag (DF): Controls the direction of string operations… DF = 0: forward… DF = 1: backward.'",
+        },
+        {
+          question:
+            "What is the primary difference between polling and independent request interrupt handling?",
+          options: [
+            "Polling uses a priority encoder, while independent request does not",
+            "Polling checks devices sequentially, while independent request uses separate interrupt signals",
+            "Polling is faster than independent request",
+            "Independent request is used for fewer devices",
+            "Polling requires more hardware",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE2 contrasts 'Polling: The CPU checks each device sequentially' with 'Independent Request: Each device sends an independent interrupt signal to the CPU.'",
+        },
+        {
+          question:
+            "Which of the following is NOT a segment register in the 8086?",
+          options: ["CS", "DS", "SS", "ES", "SP"],
+          correct: 4,
+          explanation:
+            "PAGE6 lists segment registers as CS, DS, SS, and ES. SP (Stack Pointer) is a pointer register, not a segment register (PAGE7).",
+        },
+        {
+          question:
+            "What is the clock frequency for peripherals if the 8284 uses a 15 MHz crystal?",
+          options: ["2.5 MHz", "5 MHz", "7.5 MHz", "10 MHz", "15 MHz"],
+          correct: 0,
+          explanation:
+            "PAGE6 states, 'If Crystal frequency is 15 MHz… for peripherals clock will be 2.5 MHz' (15 MHz / 6).",
+        },
+        {
+          question:
+            "In the 8086, what does the LOCK signal do in maximum mode?",
+          options: [
+            "Resets the processor",
+            "Prevents bus access to other processors during critical operations",
+            "Enables pipelining",
+            "Synchronizes with the coprocessor",
+            "Indicates the bus is ready",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE14 explains, 'LOCK Signal:… prevents bus access to other processors until the instruction completes.'",
+        },
+        {
+          question:
+            "Which addressing mode uses a register to store the operand’s address?",
+          options: [
+            "Immediate Addressing",
+            "Direct Addressing",
+            "Indirect Addressing",
+            "Relative Addressing",
+            "Indexed Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE14 states, 'Indirect Addressing: The operand’s address is stored in a register or memory location.'",
+        },
+        {
+          question:
+            "What is the minimum size of a segment in the 8086 memory segmentation?",
+          options: [
+            "16 bytes",
+            "64 bytes",
+            "128 bytes",
+            "256 bytes",
+            "512 bytes",
+          ],
+          correct: 0,
+          explanation:
+            "PAGE6 notes, 'Minimum size of any segment is 10H = 16 bytes.'",
+        },
+        {
+          question:
+            "Which of the following is a feature of the 8085 microprocessor, not the 8086?",
+          options: [
+            "16-bit ALU",
+            "20-bit address bus",
+            "8-bit data bus",
+            "Pipelining support",
+            "Memory segmentation",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE3 contrasts '8086 has 16 bits of Data bus' with 'Older version 8085 has 8 bits of data bus.'",
+        },
+        {
+          question: "What does the Zero Flag (ZF) indicate in the 8086?",
+          options: [
+            "A carry occurred in addition",
+            "The result of an operation is zero",
+            "The result is negative",
+            "An overflow occurred",
+            "The number of 1s is even",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE4 states, 'Zero Flag (ZF): Set if the result of an operation is zero.'",
+        },
+        {
+          question:
+            "In the 8086, what is the purpose of the Source Index (SI) register?",
+          options: [
+            "To store the base address of the stack",
+            "To point to the source in string operations",
+            "To hold the address of the next instruction",
+            "To perform arithmetic operations",
+            "To manage interrupt requests",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE7 explains, 'SI (Source Index): Used for string processing… points to the source in memory operations.'",
+        },
+        {
+          question:
+            "What is the role of the Instruction Queue in the 8086 BIU?",
+          options: [
+            "To decode instructions",
+            "To store prefetched instructions for pipelining",
+            "To perform arithmetic operations",
+            "To manage segment registers",
+            "To handle interrupt signals",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE9 states, 'The prefetched instructions are stored in a group of high speed registers known instruction queue… process of fetching the next instruction in advance… is pipelining.'",
+        },
+        {
+          question:
+            "Which signal indicates that data is ready to be read or written in the 8086?",
+          options: ["ALE", "READY", "INTR", "HOLD", "RESET"],
+          correct: 1,
+          explanation:
+            "PAGE13 explains, 'READY: Indicates that the external device is ready to send or receive data.'",
+        },
+        {
+          question: "What is the primary benefit of pipelining in the 8086?",
+          options: [
+            "Reduced memory usage",
+            "Increased execution speed",
+            "Simplified instruction set",
+            "Enhanced interrupt handling",
+            "Larger address space",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE3 notes, '8086 supports pipelining. So Multiple instructions can be executed in parallel to increase execution speed.'",
+        },
+        {
+          question:
+            "In the MU0 processor, how many bits does each instruction occupy?",
+          options: ["8 bits", "12 bits", "16 bits", "20 bits", "32 bits"],
+          correct: 2,
+          explanation:
+            "PAGE3 states, 'Instructions are 16 bits long, with a 4-bit operation code (or opcode) and a 12-bit address field (S).'",
+        },
+        {
+          question: "What does the Sign Flag (SF) in the 8086 indicate?",
+          options: [
+            "The result is zero",
+            "The result is negative",
+            "A carry occurred",
+            "The number of 1s is even",
+            "An overflow occurred",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE4 explains, 'Sign Flag (SF): Indicates if the result is negative (SF=1) or positive (SF=0).'",
+        },
+        {
+          question:
+            "Which of the following is NOT a function of the Execution Unit (EU) in the 8086?",
+          options: [
+            "Decoding instructions",
+            "Executing instructions",
+            "Fetching instructions from memory",
+            "Updating the flag register",
+            "Performing arithmetic operations",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE9 states, 'EU… decodes the instructions and then executes the instruction,' while 'BIU… fetches the instructions from Memory' (PAGE8).",
+        },
+        {
+          question: "In the 8086, what is the purpose of the INTR pin?",
+          options: [
+            "To provide a non-maskable interrupt",
+            "To reset the processor",
+            "To handle level-triggered hardware interrupts",
+            "To synchronize with external devices",
+            "To enable memory banking",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE10 notes, 'Interrupt Request - [INTR]: This is level triggered hardware interrupt.'",
+        },
+        {
+          question:
+            "What is the main difference between a Von Neumann and Harvard architecture?",
+          options: [
+            "Von Neumann has separate memory for data and instructions",
+            "Harvard uses a single bus for data and instructions",
+            "Von Neumann uses a single memory for data and instructions",
+            "Harvard is slower than Von Neumann",
+            "Von Neumann supports bit addressability",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE1 lists 'Microprocessor… Architecture: Von numen [Mostly]' and 'Microcontroller… Architecture: Harvard [mostly].' Von Neumann uses a single memory, while Harvard separates data and instruction memory.",
+        },
+        {
+          question:
+            "Which register in the 8086 is used to access data in the Extra Segment (ES)?",
+          options: ["SP", "BP", "SI", "DI", "BX"],
+          correct: 3,
+          explanation:
+            "PAGE7 states, 'DI (Destination Index): Used for string processing… points to the destination,' often paired with ES for string operations (PAGE5).",
+        },
+        {
+          question:
+            "What is the duty cycle of the clock generated by the 8284 for the 8086?",
+          options: ["25%", "33%", "50%", "66%", "75%"],
+          correct: 1,
+          explanation:
+            "PAGE6 notes, 'main reason for frequency divide by three is to generate clock with 33% of Duty Cycle.'",
+        },
+        {
+          question: "In the 8086, what does the HLDA signal indicate?",
+          options: [
+            "An interrupt has been acknowledged",
+            "The processor has relinquished the bus",
+            "The address is ready on the bus",
+            "The processor is in reset state",
+            "Data is ready to be transferred",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE13 states, 'HLDA: HOLD Acknowledge. Indicates that the 8086 has relinquished the system bus.'",
+        },
+        {
+          question:
+            "Which of the following is an example of immediate addressing in the 8086?",
+          options: [
+            "MOV AX, [BX]",
+            "MOV AX, 5",
+            "MOV AX, [1234h]",
+            "MOV AX, [SI]",
+            "MOV AX, [BX+SI]",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE14 defines 'Immediate Addressing: The operand is a constant value embedded in the instruction,' e.g., 'MOV AX, 5.'",
+        },
+        {
+          question:
+            "What is the purpose of the Control Unit in the 8086 Execution Unit?",
+          options: [
+            "To fetch instructions",
+            "To perform arithmetic operations",
+            "To coordinate and control subunit activities",
+            "To manage memory segmentation",
+            "To store prefetched instructions",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE9 states, 'Control Unit: It is controlling and coordinating all the activities of sub units.'",
+        },
+        {
+          question:
+            "In the 8086, what is the maximum number of instruction bytes prefetched by the BIU?",
+          options: ["2 bytes", "4 bytes", "6 bytes", "8 bytes", "10 bytes"],
+          correct: 2,
+          explanation:
+            "PAGE9 notes, 'BIU prefetches six instruction bytes in advance from memory.'",
+        },
+        {
+          question:
+            "Which flag is used to detect overflow in signed arithmetic in the 8086?",
+          options: [
+            "Carry Flag (CF)",
+            "Zero Flag (ZF)",
+            "Sign Flag (SF)",
+            "Overflow Flag (OF)",
+            "Parity Flag (PF)",
+          ],
+          correct: 3,
+          explanation:
+            "PAGE5 states, 'Overflow Flag (OF): Set if an arithmetic operation produces a result too large for the register.'",
+        },
+        {
+          question: "What is the purpose of the TEST pin in the 8086?",
+          options: [
+            "To reset the processor",
+            "To synchronize with external devices",
+            "To enable single-step execution",
+            "To acknowledge interrupts",
+            "To lock the bus",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE13 explains, 'TEST: Used for synchronization between the 8086 and external devices.'",
+        },
+        {
+          question:
+            "In the 8086, which mode is used for systems with a single processor?",
+          options: [
+            "Maximum Mode",
+            "Minimum Mode",
+            "Pipelined Mode",
+            "Segmented Mode",
+            "Interrupt Mode",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE11 states, 'Minimum Mode… Used in single-processor.'",
+        },
+        {
+          question:
+            "What does the M/IO signal in the 8086 minimum mode differentiate?",
+          options: [
+            "Read and write operations",
+            "Memory and I/O operations",
+            "Interrupt and data transfer",
+            "Address and status signals",
+            "Maximum and minimum modes",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE12 notes, 'M/IO (Memory/Input-Output): Differentiates between memory and I/O operations.'",
+        },
+        {
+          question:
+            "Which of the following is a disadvantage of polling in interrupt handling?",
+          options: [
+            "It requires separate interrupt lines",
+            "It wastes CPU time with many devices",
+            "It cannot prioritize devices",
+            "It is slower than daisy chaining",
+            "It requires a priority encoder",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE2 states, 'Polling… wastes CPU time if there are many devices.'",
+        },
+        {
+          question:
+            "In the 8086, what is the role of the Data Segment (DS) register?",
+          options: [
+            "To store executable instructions",
+            "To hold the base address for data variables",
+            "To manage stack operations",
+            "To provide an extra segment for string operations",
+            "To point to the next instruction",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE6 explains, 'Data Segment (DS)… Stores global variables, constants, and arrays… The DS register holds the starting address of this segment.'",
+        },
+        {
+          question: "What is the opcode size in the MU0 instruction set?",
+          options: ["4 bits", "8 bits", "12 bits", "16 bits", "20 bits"],
+          correct: 0,
+          explanation:
+            "PAGE3 states, 'Instructions are 16 bits long, with a 4-bit operation code (or opcode) and a 12-bit address field (S).'",
+        },
+        {
+          question: "In the 8086, what does the WR signal indicate?",
+          options: [
+            "A read operation",
+            "A write operation",
+            "An interrupt acknowledgment",
+            "A bus request",
+            "A reset state",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE12 lists 'WR (Write): Specifies a write operation.'",
+        },
+        {
+          question:
+            "Which of the following improves execution speed in the 8086?",
+          options: [
+            "Increasing the address bus size",
+            "Upgrading memory technology",
+            "Reducing the number of registers",
+            "Disabling pipelining",
+            "Using a smaller ALU",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE4 lists 'Upgrading Memory technology' as a way to increase speed, e.g., 'we have SSD & Cache in our computer.'",
+        },
+        {
+          question:
+            "What is the purpose of the Stack Segment (SS) in the 8086?",
+          options: [
+            "To store executable code",
+            "To manage function calls and local variables",
+            "To hold global variables",
+            "To provide an extra data segment",
+            "To fetch instructions",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE5 states, 'Stack Segment (SS): Stores function calls, local variables, and return addresses.'",
+        },
+        {
+          question: "In the 8086, what happens when the READY pin is logic 0?",
+          options: [
+            "The processor resets",
+            "The processor enters a wait state",
+            "An interrupt is acknowledged",
+            "The bus is locked",
+            "Data transfer is completed",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE11 notes, 'If it is logic 0, 8086 enters into the wait state like idle.'",
+        },
+        {
+          question:
+            "Which register pair is used to calculate the physical address in the 8086 stack segment?",
+          options: [
+            "CS and IP",
+            "DS and SI",
+            "SS and SP",
+            "ES and DI",
+            "BX and AX",
+          ],
+          correct: 2,
+          explanation:
+            "PAGE5 states, 'The SS register holds the starting address of this segment. The Stack Pointer (SP)… used to manage stack operations.'",
+        },
+        {
+          question:
+            "What is the primary function of the ALU in the MU0 processor?",
+          options: [
+            "To fetch instructions",
+            "To perform arithmetic and logical operations",
+            "To decode instructions",
+            "To manage memory addressing",
+            "To store the current instruction",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE3 explains, 'an arithmetic-logic unit (ALU) that can perform a number of operations on binary operands, such as add, subtract, increment.'",
+        },
+        {
+          question:
+            "In the 8086, what does the QS0 & QS1 signals indicate in maximum mode?",
+          options: [
+            "The status of the system bus",
+            "The status of the instruction queue",
+            "The type of memory operation",
+            "The priority of interrupts",
+            "The clock frequency",
+          ],
+          correct: 1,
+          explanation:
+            "PAGE14 states, 'QS0 & QS1 (Queue Status): These signals indicate the status of the Instruction Queue in pipelined execution.'",
+        },
+      ];
+      const questionsModel3 = [
+        {
+          question:
+            "What is the primary role of the Arithmetic-Logic Unit (ALU) in the MU-0 processor?",
+          options: [
+            "To fetch instructions from memory.",
+            "To perform operations like add, subtract, and increment.",
+            "To store the current instruction.",
+            "To manage memory segmentation.",
+            "To generate clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes the ALU in the MU-0 processor as a component that performs operations such as addition, subtraction, and increment on binary operands.",
+        },
+        {
+          question:
+            "How many bits does the 8086 microprocessor use for its address bus?",
+          options: ["16 bits", "18 bits", "20 bits", "24 bits", "32 bits"],
+          correct: 2,
+          explanation:
+            "The document states that the 8086 has a 20-bit address bus, allowing it to address up to 1 MB of memory.",
+        },
+        {
+          question:
+            "What does the Carry Flag (CF) in the 8086 flag register indicate?",
+          options: [
+            "A zero result in an operation.",
+            "A negative result in an operation.",
+            "A carry or borrow in arithmetic operations.",
+            "An overflow in signed arithmetic.",
+            "Even parity in the result.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the Carry Flag (CF) is used in arithmetic operations to detect a carry in addition or a borrow in subtraction.",
+        },
+        {
+          question:
+            "Which register in the 8086 is used to point to the top of the stack?",
+          options: [
+            "Base Pointer (BP)",
+            "Stack Pointer (SP)",
+            "Source Index (SI)",
+            "Destination Index (DI)",
+            "Instruction Pointer (IP)",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that the Stack Pointer (SP) points to the top of the stack and is updated during PUSH and POP operations.",
+        },
+        {
+          question:
+            "What is the purpose of memory segmentation in the 8086 microprocessor?",
+          options: [
+            "To increase clock speed.",
+            "To allow addressing beyond 16 bits using virtual addresses.",
+            "To reduce the size of the ALU.",
+            "To eliminate the need for a data bus.",
+            "To simplify instruction decoding.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that memory segmentation in the 8086 uses virtual addresses to enable addressing up to 1 MB with a 20-bit physical address, despite 16-bit registers.",
+        },
+        {
+          question:
+            "How is the physical address calculated in the 8086 microprocessor?",
+          options: [
+            "Segment Register + Offset Pointer",
+            "Segment Register * 10H + Offset Pointer",
+            "Offset Pointer * 10H + Segment Register",
+            "Segment Register + Instruction Pointer",
+            "Offset Pointer / 10H + Segment Register",
+          ],
+          correct: 1,
+          explanation:
+            "The document provides the formula PA = SR * 10H + OP, where SR is the Segment Register and OP is the Offset Pointer.",
+        },
+        {
+          question: "What is the minimum size of a memory segment in the 8086?",
+          options: ["8 bytes", "16 bytes", "32 bytes", "64 bytes", "128 bytes"],
+          correct: 1,
+          explanation:
+            "The document states that the minimum size of any segment in the 8086 is 10H, which equals 16 bytes.",
+        },
+        {
+          question:
+            "Which component generates the clock signal for the 8086 microprocessor?",
+          options: ["8282", "8284", "8286", "8288", "8087"],
+          correct: 1,
+          explanation:
+            "The document explains that the 8284, designed by Intel, generates the clock, reset, and ready signals for the 8086 microprocessor.",
+        },
+        {
+          question:
+            "What is the duty cycle of the clock generated by the 8284 for the 8086?",
+          options: ["25%", "33%", "50%", "66%", "75%"],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8284 divides the crystal frequency by three to generate a clock with a 33% duty cycle for the 8086.",
+        },
+        {
+          question:
+            "What happens when the RESET pin of the 8086 is activated for at least 4 clock cycles?",
+          options: [
+            "The processor enters maximum mode.",
+            "The CS and IP registers are initialized to FFFFH and 0000H.",
+            "The ALU shuts down temporarily.",
+            "The instruction queue is cleared.",
+            "The processor switches to polling mode.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that after a RESET held for at least 4 clock cycles, the 8086 initializes CS to FFFFH and IP to 0000H, resulting in a physical address of FFFF0H.",
+        },
+        {
+          question:
+            "What is the purpose of the Instruction Queue in the 8086’s BIU?",
+          options: [
+            "To store data during arithmetic operations.",
+            "To prefetch up to six instruction bytes from memory.",
+            "To decode instructions before execution.",
+            "To manage memory segmentation.",
+            "To synchronize clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes the Instruction Queue in the BIU as prefetching up to six instruction bytes in advance from memory, enabling pipelining.",
+        },
+        {
+          question:
+            "Which addressing mode uses a constant value embedded in the instruction?",
+          options: [
+            "Register Addressing",
+            "Direct Addressing",
+            "Immediate Addressing",
+            "Indirect Addressing",
+            "Indexed Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Immediate Addressing as an addressing mode where the operand is a constant value embedded in the instruction, e.g., MOV AX, 5.",
+        },
+        {
+          question: "What does the LOCK signal do in the 8086’s maximum mode?",
+          options: [
+            "It enables pipelining.",
+            "It prevents bus access by other processors during an instruction.",
+            "It resets the processor.",
+            "It synchronizes the ALU with memory.",
+            "It disables interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the LOCK signal, used in maximum mode, prevents other processors from accessing the bus until the locked instruction completes.",
+        },
+        {
+          question:
+            "Which signal indicates that the 8086 has relinquished the system bus?",
+          options: ["HOLD", "HLDA", "INTR", "NMI", "READY"],
+          correct: 1,
+          explanation:
+            "The document states that HLDA (HOLD Acknowledge) indicates that the 8086 has released the system bus in response to a HOLD signal.",
+        },
+        {
+          question:
+            "What is the purpose of the Extra Segment (ES) register in the 8086?",
+          options: [
+            "To store executable instructions.",
+            "To manage stack operations.",
+            "To hold additional data, mainly for string operations.",
+            "To point to the top of the stack.",
+            "To fetch instructions from memory.",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes the Extra Segment (ES) as an additional data segment, primarily used for string operations.",
+        },
+        {
+          question: "In the 8086, what does the Direction Flag (DF) control?",
+          options: [
+            "The speed of arithmetic operations.",
+            "The direction of string operations.",
+            "The enabling of interrupts.",
+            "The size of memory segments.",
+            "The priority of interrupt requests.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the Direction Flag (DF) controls the direction of string operations: DF = 0 for forward (auto-increment) and DF = 1 for backward (auto-decrement).",
+        },
+        {
+          question:
+            "What is the role of the Bus High Enable (BHE) signal in the 8086?",
+          options: [
+            "It enables the lower byte of the data bus.",
+            "It enables the upper byte (D15-D8) of the data bus.",
+            "It resets the processor.",
+            "It synchronizes clock signals.",
+            "It acknowledges interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Bus High Enable (BHE) signal is used to enable the upper byte (D15-D8) of the data bus, facilitating memory banking.",
+        },
+        {
+          question:
+            "Which component of the 8086 is responsible for fetching instructions from memory?",
+          options: [
+            "Execution Unit (EU)",
+            "Bus Interface Unit (BIU)",
+            "Arithmetic-Logic Unit (ALU)",
+            "Control Unit",
+            "Instruction Register (IR)",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that the Bus Interface Unit (BIU) fetches instructions from memory as one of its primary functions.",
+        },
+        {
+          question:
+            "What is the maximum size of a single memory segment in the 8086?",
+          options: ["16 KB", "32 KB", "64 KB", "128 KB", "256 KB"],
+          correct: 2,
+          explanation:
+            "The document indicates that with a 16-bit offset pointer, the maximum size of any segment is 2^16 = 64 KB.",
+        },
+        {
+          question: "What does the Trap Flag (TF) enable in the 8086?",
+          options: [
+            "Memory segmentation.",
+            "Single-step execution for debugging.",
+            "Pipelining of instructions.",
+            "Interrupt handling.",
+            "String operations.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the Trap Flag (TF) enables single-step execution for debugging, generating an interrupt after each instruction if set.",
+        },
+        {
+          question:
+            "Which register in the 8086 is primarily used for loop counters?",
+          options: ["AX", "BX", "CX", "DX", "SI"],
+          correct: 2,
+          explanation:
+            "The document states that the CX (Count Register) is used to store loop counters for repetitive operations, such as the LOOP instruction.",
+        },
+        {
+          question:
+            "What happens when the READY pin of the 8086 is set to logic 0?",
+          options: [
+            "The processor resets.",
+            "The processor enters a wait state.",
+            "The processor switches to maximum mode.",
+            "The ALU stops functioning.",
+            "Interrupts are disabled.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that if the READY pin is at logic 0, the 8086 enters a wait state to synchronize with slow peripheral devices.",
+        },
+        {
+          question:
+            "Which addressing mode calculates the operand’s address using a base register and an offset?",
+          options: [
+            "Immediate Addressing",
+            "Register Addressing",
+            "Indexed Addressing",
+            "Direct Addressing",
+            "Relative Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Indexed Addressing as calculating the operand’s address using a base register and an offset, e.g., MOV AX, [BX+SI].",
+        },
+        {
+          question:
+            "What is the function of the 8288 bus controller in the 8086’s maximum mode?",
+          options: [
+            "It generates clock signals.",
+            "It fetches instructions from memory.",
+            "It generates control signals based on status signals (S0, S1, S2).",
+            "It decodes instructions.",
+            "It manages memory segmentation.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that in maximum mode, the 8288 bus controller uses status signals (S0, S1, S2) from the 8086 to generate necessary control signals.",
+        },
+        {
+          question:
+            "What is the purpose of the Non-Maskable Interrupt (NMI) in the 8086?",
+          options: [
+            "It can be disabled by software.",
+            "It handles low-priority interrupts.",
+            "It is a high-priority interrupt that cannot be ignored.",
+            "It synchronizes peripheral devices.",
+            "It resets the processor.",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes the NMI as a high-priority, positive edge-triggered interrupt that cannot be disabled by software, triggering a Type 2 interrupt.",
+        },
+        {
+          question: "How many ground pins does the 8086 microprocessor have?",
+          options: ["1", "2", "3", "4", "5"],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8086 has two ground pins to reduce power dissipation.",
+        },
+        {
+          question: "What does the Parity Flag (PF) indicate in the 8086?",
+          options: [
+            "A carry in arithmetic operations.",
+            "The evenness or oddness of 1s in the result.",
+            "A zero result.",
+            "An overflow error.",
+            "The direction of string operations.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Parity Flag (PF) checks the evenness of 1s in the result: PF = 1 if even, PF = 0 if odd.",
+        },
+        {
+          question:
+            "In minimum mode, how does the 8086 handle bus sharing with a DMA controller?",
+          options: [
+            "It uses RQ/GT signals.",
+            "It uses HOLD and HLDA signals.",
+            "It locks the bus with the LOCK signal.",
+            "It switches to maximum mode.",
+            "It disables interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that in minimum mode, a DMA controller requests the bus with HOLD, and the 8086 acknowledges with HLDA.",
+        },
+        {
+          question:
+            "What is the role of the Instruction Pointer (IP) in the 8086?",
+          options: [
+            "It holds the address of the next instruction to be executed.",
+            "It stores the result of arithmetic operations.",
+            "It points to the top of the stack.",
+            "It manages string operations.",
+            "It generates control signals.",
+          ],
+          correct: 0,
+          explanation:
+            "The document specifies that the Instruction Pointer (IP) in the BIU holds the offset address of the next instruction to be executed.",
+        },
+        {
+          question:
+            "Which flag is used in Binary Coded Decimal (BCD) arithmetic in the 8086?",
+          options: [
+            "Carry Flag (CF)",
+            "Zero Flag (ZF)",
+            "Auxiliary Carry Flag (AF)",
+            "Sign Flag (SF)",
+            "Overflow Flag (OF)",
+          ],
+          correct: 2,
+          explanation:
+            "The document notes that the Auxiliary Carry Flag (AF) is set if there is a carry from bit 3 to bit 4, used in BCD arithmetic.",
+        },
+        {
+          question:
+            "What is the clock frequency for peripherals if the 8284 uses a 15 MHz crystal?",
+          options: ["2.5 MHz", "5 MHz", "7.5 MHz", "10 MHz", "15 MHz"],
+          correct: 0,
+          explanation:
+            "The document states that the 8284 divides the crystal frequency by six for peripherals; thus, 15 MHz / 6 = 2.5 MHz.",
+        },
+        {
+          question: "What does the TEST pin of the 8086 do when it is logic 0?",
+          options: [
+            "It resets the processor.",
+            "It causes the 8086 to execute a WAIT instruction.",
+            "It enables maximum mode.",
+            "It disables interrupts.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that when the TEST pin is logic 0, the 8086 executes a WAIT instruction for synchronization.",
+        },
+        {
+          question:
+            "Which register is used as a memory address base for data storage in the 8086?",
+          options: ["AX", "BX", "CX", "DX", "DI"],
+          correct: 1,
+          explanation:
+            "The document describes the BX (Base Register) as primarily used as a memory address base for data storage and indirect addressing.",
+        },
+        {
+          question:
+            "What is the purpose of the QS0 and QS1 signals in the 8086’s maximum mode?",
+          options: [
+            "To generate clock signals.",
+            "To indicate the status of the Instruction Queue.",
+            "To handle memory banking.",
+            "To reset the processor.",
+            "To enable interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that QS0 and QS1 (Queue Status) signals indicate the status of the Instruction Queue in pipelined execution, mainly for coprocessor synchronization.",
+        },
+        {
+          question:
+            "How does the 8086 differentiate between memory and I/O operations in minimum mode?",
+          options: [
+            "Using the LOCK signal",
+            "Using the M/IO signal",
+            "Using the RQ/GT signals",
+            "Using the TEST pin",
+            "Using the NMI pin",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the M/IO (Memory/Input-Output) signal in minimum mode differentiates between memory and I/O operations.",
+        },
+        {
+          question: "What is the advantage of memory banking in the 8086?",
+          options: [
+            "It reduces clock speed requirements.",
+            "It allows simultaneous access to two bytes in one cycle.",
+            "It eliminates the need for pipelining.",
+            "It increases the size of each segment.",
+            "It simplifies instruction decoding.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that memory banking bisects memory into even and odd banks, allowing the 8086 to access two bytes (one from each bank) in a single machine cycle.",
+        },
+        {
+          question:
+            "Which addressing mode uses the Instruction Pointer (IP) to calculate the operand’s address?",
+          options: [
+            "Direct Addressing",
+            "Indirect Addressing",
+            "Relative Addressing",
+            "Indexed Addressing",
+            "Immediate Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Relative Addressing as calculating the operand’s address relative to the Instruction Pointer (IP), e.g., JMP 10h.",
+        },
+        {
+          question:
+            "What is the purpose of the Interrupt Enable Flag (IF) in the 8086?",
+          options: [
+            "It controls string operation direction.",
+            "It enables or disables external hardware interrupts.",
+            "It detects arithmetic overflow.",
+            "It indicates a zero result.",
+            "It manages stack operations.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Interrupt Enable Flag (IF) enables (IF = 1) or disables (IF = 0) external hardware interrupts.",
+        },
+        {
+          question: "In the 8086, what does the DEN (Data Enable) signal do?",
+          options: [
+            "It enables data transmission.",
+            "It resets the processor.",
+            "It locks the bus.",
+            "It generates clock signals.",
+            "It acknowledges interrupts.",
+          ],
+          correct: 0,
+          explanation:
+            "The document mentions that DEN (Data Enable) enables data transmission in minimum mode.",
+        },
+        {
+          question:
+            "Which register is used to access function parameters in the 8086 stack?",
+          options: [
+            "Stack Pointer (SP)",
+            "Base Pointer (BP)",
+            "Source Index (SI)",
+            "Destination Index (DI)",
+            "Instruction Pointer (IP)",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the Base Pointer (BP) helps access function parameters and local variables within the stack.",
+        },
+        {
+          question:
+            "What is the significance of the ALE (Address Latch Enable) signal in the 8086?",
+          options: [
+            "It indicates that the address is ready on the bus.",
+            "It enables data transmission.",
+            "It resets the processor.",
+            "It locks the bus.",
+            "It disables interrupts.",
+          ],
+          correct: 0,
+          explanation:
+            "The document states that ALE (Address Latch Enable) indicates that the address is ready on the bus in minimum mode.",
+        },
+        {
+          question:
+            "How many 64 KB segments can the 8086 address at any instant?",
+          options: ["2", "4", "8", "16", "32"],
+          correct: 1,
+          explanation:
+            "The document notes that at any instant, the 8086 works with only four 64 KB segments, despite its 1 MB total memory capacity.",
+        },
+        {
+          question:
+            "What is the purpose of the Overflow Flag (OF) in the 8086?",
+          options: [
+            "It detects a carry in arithmetic operations.",
+            "It indicates a zero result.",
+            "It detects signed arithmetic overflow errors.",
+            "It controls string operation direction.",
+            "It enables single-step debugging.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the Overflow Flag (OF) is set if an arithmetic operation produces a result too large for the register in signed arithmetic.",
+        },
+        {
+          question:
+            "Which signal is used to request bus control from the 8086 in maximum mode?",
+          options: ["HOLD", "HLDA", "RQ/GT", "INTR", "NMI"],
+          correct: 2,
+          explanation:
+            "The document states that RQ/GT signals are used in maximum mode for bus arbitration when another processor or coprocessor requests bus control.",
+        },
+        {
+          question:
+            "What is the role of the Control Unit in the 8086’s Execution Unit?",
+          options: [
+            "It fetches instructions from memory.",
+            "It performs arithmetic operations.",
+            "It coordinates and controls subunit activities.",
+            "It manages memory banking.",
+            "It prefetches instruction bytes.",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes the Control Unit in the EU as controlling and coordinating all subunit activities, including fetching, decoding, and executing instructions.",
+        },
+        {
+          question:
+            "How many status signals are provided by the 8086’s address status lines?",
+          options: ["2", "3", "4", "5", "6"],
+          correct: 2,
+          explanation:
+            "The document mentions four time-multiplexed address status lines (A19/S6 - A16/S3), providing status signals S3 to S6, of which S3 and S4 indicate the accessed segment.",
+        },
+        {
+          question:
+            "What is the power supply voltage for the 8086 microprocessor?",
+          options: ["3.3 volts", "5 volts", "9 volts", "12 volts", "15 volts"],
+          correct: 1,
+          explanation:
+            "The document states that the 8086 is given a 5-volt DC supply, with an allowed variation of 10%.",
+        },
+        {
+          question:
+            "Which addressing mode combines base and index registers with a displacement?",
+          options: [
+            "Register Indirect Addressing",
+            "Indexed Addressing",
+            "Based Indexed Addressing",
+            "Relative Addressing",
+            "Direct Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Based Indexed Addressing as combining base and index registers with an immediate displacement, e.g., MOV AX, [BX+SI+10h].",
+        },
+        {
+          question:
+            "What is the primary benefit of the general-purpose registers in the 8086?",
+          options: [
+            "They increase clock speed.",
+            "They reduce memory access time by storing frequently used values.",
+            "They eliminate the need for memory segmentation.",
+            "They simplify pipelining.",
+            "They generate control signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document highlights that general-purpose registers (AX, BX, CX, DX) reduce memory access time by storing frequently used values in the CPU.",
+        },
+        {
+          question:
+            "What happens to the 8086 when the MN/MX pin is connected to ground?",
+          options: [
+            "It operates in minimum mode.",
+            "It operates in maximum mode.",
+            "It resets to a default state.",
+            "It disables pipelining.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that connecting the MN/MX pin to ground configures the 8086 to operate in maximum mode, suitable for multiple coprocessors.",
+        },
+      ];
+      const questionsModel4 = [
+        {
+          question:
+            "What is the main advantage of the 8086’s 16-bit ALU over the 8085’s 8-bit ALU?",
+          options: [
+            "It uses less power.",
+            "It performs more arithmetic and logical operations.",
+            "It reduces the size of the data bus.",
+            "It eliminates the need for memory segmentation.",
+            "It simplifies clock generation.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the 8086’s 16-bit ALU performs more arithmetic and logical operations compared to the 8-bit ALU of the 8085, enhancing processing capability.",
+        },
+        {
+          question:
+            "How many general-purpose registers does the 8086 microprocessor have?",
+          options: ["2", "3", "4", "5", "6"],
+          correct: 2,
+          explanation:
+            "The document lists four 16-bit general-purpose registers in the 8086: AX, BX, CX, and DX.",
+        },
+        {
+          question: "What does the Sign Flag (SF) in the 8086 indicate?",
+          options: [
+            "A carry in addition.",
+            "A zero result.",
+            "A negative result if set to 1.",
+            "An even number of 1s in the result.",
+            "An overflow in unsigned arithmetic.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the Sign Flag (SF) indicates a negative result (SF = 1) or positive result (SF = 0) based on the most significant bit.",
+        },
+        {
+          question:
+            "Which register in the 8086 is used to store the offset address for string source data?",
+          options: [
+            "Destination Index (DI)",
+            "Source Index (SI)",
+            "Base Pointer (BP)",
+            "Stack Pointer (SP)",
+            "Instruction Pointer (IP)",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that the Source Index (SI) is used for string processing and points to the source in memory operations.",
+        },
+        {
+          question:
+            "What is one benefit of memory segmentation in the 8086 that improves debugging?",
+          options: [
+            "It increases clock speed.",
+            "It allows changes in one segment without affecting others.",
+            "It reduces the number of registers needed.",
+            "It eliminates the need for pipelining.",
+            "It simplifies ALU operations.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that a change in one segment does not affect others, making debugging easier in the 8086.",
+        },
+        {
+          question:
+            "What is the role of the Data Segment (DS) register in the 8086?",
+          options: [
+            "It stores executable instructions.",
+            "It holds the starting address of the stack.",
+            "It holds the starting address for program variables and data.",
+            "It manages additional data for string operations.",
+            "It points to the next instruction.",
+          ],
+          correct: 2,
+          explanation:
+            "The document states that the Data Segment (DS) register holds the starting address of the segment storing global variables, constants, and arrays.",
+        },
+        {
+          question:
+            "What is the purpose of the 8284’s synchronization feature for the 8086?",
+          options: [
+            "To increase the data bus size.",
+            "To align clock, reset, and ready signals.",
+            "To prefetch instructions.",
+            "To manage memory banking.",
+            "To decode instructions.",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8284 provides synchronization in generating clock, reset, and ready signals for the 8086.",
+        },
+        {
+          question:
+            "Which pin in the 8086 is used to separate time-multiplexed address and data lines?",
+          options: ["BHE", "ALE", "INTR", "NMI", "RD"],
+          correct: 1,
+          explanation:
+            "The document explains that the Address Latch Enable (ALE) pin separates the time-multiplexed address (ALE = 1) and data (ALE = 0) on lines AD0-AD15.",
+        },
+        {
+          question:
+            "What type of interrupt is triggered by the Non-Maskable Interrupt (NMI) in the 8086?",
+          options: ["Type 0", "Type 1", "Type 2", "Type 3", "Type 4"],
+          correct: 2,
+          explanation:
+            "The document states that when the NMI occurs, it triggers a Type 2 interrupt in the 8086.",
+        },
+        {
+          question:
+            "What is the significance of the 8086’s pipelining feature?",
+          options: [
+            "It reduces the size of memory segments.",
+            "It allows multiple instructions to be executed in parallel.",
+            "It eliminates the need for a clock signal.",
+            "It simplifies memory banking.",
+            "It disables interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document highlights that pipelining in the 8086 supports parallel execution of multiple instructions, increasing execution speed.",
+        },
+        {
+          question:
+            "What does the DT/R (Data Transmit/Receive) signal control in the 8086’s minimum mode?",
+          options: [
+            "The direction of data flow.",
+            "The clock frequency.",
+            "The interrupt priority.",
+            "The memory segment size.",
+            "The reset state.",
+          ],
+          correct: 0,
+          explanation:
+            "The document notes that DT/R (Data Transmit/Receive) is used for data flow control in minimum mode.",
+        },
+        {
+          question:
+            "Which addressing mode uses a register to store the operand’s address?",
+          options: [
+            "Immediate Addressing",
+            "Direct Addressing",
+            "Register Indirect Addressing",
+            "Relative Addressing",
+            "Based Indexed Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Register Indirect Addressing as using a register to store the operand’s address, e.g., MOV AX, [SI].",
+        },
+        {
+          question:
+            "What is the purpose of the Status Signals (S0, S1, S2) in the 8086’s maximum mode?",
+          options: [
+            "To fetch instructions from memory.",
+            "To indicate the type of bus operation to the 8288 bus controller.",
+            "To reset the processor.",
+            "To manage stack operations.",
+            "To synchronize peripheral devices.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that S0, S1, and S2 are used by the 8288 bus controller in maximum mode to determine the type of operation, such as memory read/write or interrupt acknowledgment.",
+        },
+        {
+          question:
+            "What happens when the Interrupt Flag (IF) is set to 0 in the 8086?",
+          options: [
+            "External interrupts are enabled.",
+            "External interrupts are disabled.",
+            "The processor resets.",
+            "String operations reverse direction.",
+            "The ALU shuts down.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Interrupt Enable Flag (IF) disables external hardware interrupts when IF = 0.",
+        },
+        {
+          question:
+            "How many index registers does the 8086 microprocessor have?",
+          options: ["1", "2", "3", "4", "5"],
+          correct: 1,
+          explanation:
+            "The document lists two 16-bit index registers in the 8086: SI (Source Index) and DI (Destination Index).",
+        },
+        {
+          question:
+            "What is the role of the Code Segment (CS) register in the 8086?",
+          options: [
+            "It stores program variables.",
+            "It holds the starting address of executable instructions.",
+            "It manages stack operations.",
+            "It points to additional data for string operations.",
+            "It controls interrupt handling.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes the Code Segment (CS) register as holding the starting address of the segment storing executable program instructions.",
+        },
+        {
+          question: "What is the purpose of the RD (Read) signal in the 8086?",
+          options: [
+            "It writes data to memory.",
+            "It reads data from memory or I/O devices when logic 0.",
+            "It resets the processor.",
+            "It enables the upper byte of the data bus.",
+            "It acknowledges interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when RD is logic 0, the 8086 reads data from memory or I/O devices.",
+        },
+        {
+          question:
+            "What is the benefit of the 8086’s backward compatibility with the 8085?",
+          options: [
+            "It increases clock speed.",
+            "It allows 8086 programs to run on 8085 hardware.",
+            "It enables 16-bit addressing with memory segmentation.",
+            "It reduces the number of registers.",
+            "It eliminates pipelining.",
+          ],
+          correct: 2,
+          explanation:
+            "The document notes that memory segmentation makes the 8086 backward compatible with the 8085, implying it can support 16-bit addressing in a way compatible with older systems.",
+        },
+        {
+          question:
+            "Which component of the 8086’s Execution Unit (EU) decodes instructions?",
+          options: [
+            "ALU",
+            "Control Unit",
+            "Instruction Queue",
+            "Segment Registers",
+            "Instruction Pointer",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that the Control Unit in the EU fetches, decodes, and executes instructions.",
+        },
+        {
+          question:
+            "What is the maximum clock frequency supported by the 8086?",
+          options: ["5 MHz", "8 MHz", "10 MHz", "12 MHz", "15 MHz"],
+          correct: 2,
+          explanation:
+            "The document lists the clock frequencies for the 8086 as 5 MHz, 8 MHz, and 10 MHz, with 10 MHz being the maximum.",
+        },
+        {
+          question:
+            "What does the WR (Write) signal indicate in the 8086’s minimum mode?",
+          options: [
+            "A read operation.",
+            "A write operation when logic 0.",
+            "An interrupt acknowledgment.",
+            "A reset state.",
+            "A bus lock.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that WR (Write) specifies a write operation when it is logic 0 in minimum mode.",
+        },
+        {
+          question:
+            "What is the purpose of the Stack Segment (SS) register in the 8086?",
+          options: [
+            "It stores executable instructions.",
+            "It holds the starting address of the stack for function calls.",
+            "It manages string operations.",
+            "It points to program variables.",
+            "It fetches instructions from memory.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Stack Segment (SS) register holds the starting address of the segment for function calls, local variables, and return addresses.",
+        },
+        {
+          question:
+            "Which signal in the 8086 indicates the segment being accessed during a bus cycle?",
+          options: [
+            "S0 and S1",
+            "S3 and S4",
+            "S5 and S6",
+            "QS0 and QS1",
+            "RQ/GT0 and RQ/GT1",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that status signals S3 and S4 indicate which segment is accessed by the 8086 during the current bus cycle.",
+        },
+        {
+          question:
+            "What is the role of the DX register in multiplication and division operations?",
+          options: [
+            "It stores the loop counter.",
+            "It holds the memory address base.",
+            "It stores the high-order result.",
+            "It points to the stack top.",
+            "It manages string source data.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the DX (Data Register) is used in multiplication and division to store the high-order result.",
+        },
+        {
+          question:
+            "What is the disadvantage of pipelining in the 8086 during branch instructions?",
+          options: [
+            "It slows down the clock speed.",
+            "The next fetched instruction is discarded.",
+            "It increases memory usage.",
+            "It disables interrupts.",
+            "It requires more registers.",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions that in branch instruction execution, the next fetched instruction is discarded due to pipelining.",
+        },
+        {
+          question:
+            "How many memory banks does the 8086 use for its 1 MB memory?",
+          options: ["1", "2", "3", "4", "5"],
+          correct: 1,
+          explanation:
+            "The document states that the 8086 bisects its 1 MB memory into two banks of 512 KB each: an even bank and an odd bank.",
+        },
+        {
+          question:
+            "What does the INTA (Interrupt Acknowledge) signal do in the 8086?",
+          options: [
+            "It requests an interrupt.",
+            "It acknowledges an external interrupt.",
+            "It resets the processor.",
+            "It enables the data bus.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that INTA (Interrupt Acknowledge) is used by the 8086 to acknowledge external interrupts along with an INTR request.",
+        },
+        {
+          question:
+            "Which register in the 8086 is used for indirect memory addressing of destination data?",
+          options: ["SI", "DI", "BP", "SP", "BX"],
+          correct: 1,
+          explanation:
+            "The document specifies that the Destination Index (DI) is used for string processing and points to the destination in memory operations.",
+        },
+        {
+          question:
+            "What is the purpose of the HOLD signal in the 8086’s minimum mode?",
+          options: [
+            "It acknowledges an interrupt.",
+            "It requests the 8086 to release the system bus.",
+            "It enables the upper byte of the data bus.",
+            "It resets the processor.",
+            "It synchronizes clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the HOLD signal indicates that another device is requesting the use of the system bus, prompting the 8086 to release it.",
+        },
+        {
+          question:
+            "What is the benefit of the 8086’s instruction queue working on a FIFO basis?",
+          options: [
+            "It reduces clock speed requirements.",
+            "It ensures instructions are executed in the order they are fetched.",
+            "It eliminates the need for memory banking.",
+            "It simplifies ALU operations.",
+            "It disables pipelining.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that the instruction queue operates on a First-In-First-Out (FIFO) basis, ensuring instructions are processed in the order they are prefetched.",
+        },
+        {
+          question:
+            "Which component in the 8086 updates the flag register after an operation?",
+          options: [
+            "Bus Interface Unit (BIU)",
+            "Execution Unit (EU)",
+            "Instruction Pointer (IP)",
+            "Segment Registers",
+            "Instruction Queue",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the Execution Unit (EU) updates the status of the flag register after executing instructions.",
+        },
+        {
+          question:
+            "What is the purpose of the RQ/GT0 signal in the 8086’s maximum mode?",
+          options: [
+            "It generates clock signals.",
+            "It handles bus arbitration with higher priority.",
+            "It resets the processor.",
+            "It enables data transmission.",
+            "It indicates queue status.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that RQ/GT0 (Request/Grant 0) handles bus arbitration in maximum mode and has higher priority than RQ/GT1.",
+        },
+        {
+          question:
+            "How does the 8086 handle a Memory Read operation in minimum mode?",
+          options: [
+            "RD=0, WR=1, M/IO=1",
+            "RD=1, WR=0, M/IO=1",
+            "RD=0, WR=1, M/IO=0",
+            "RD=1, WR=0, M/IO=0",
+            "RD=0, WR=0, M/IO=1",
+          ],
+          correct: 0,
+          explanation:
+            "The document specifies that a Memory Read operation in minimum mode uses RD=0, WR=1, and M/IO=1.",
+        },
+        {
+          question:
+            "What is the role of the 8282 in the 8086’s minimum mode hardware connection?",
+          options: [
+            "It generates clock signals.",
+            "It acts as an address latch.",
+            "It provides data buffering.",
+            "It controls bus arbitration.",
+            "It decodes instructions.",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8282 is used as an address latch in the 8086’s minimum mode hardware connection.",
+        },
+        {
+          question: "What does the S5 status signal reflect in the 8086?",
+          options: [
+            "The accessed segment.",
+            "The Interrupt Flag (IF) status.",
+            "The queue status.",
+            "The clock frequency.",
+            "The reset state.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the S5 status signal reflects the status of the Interrupt Flag (IF) register.",
+        },
+        {
+          question:
+            "Which feature of the 8086 allows it to work with coprocessors like the 8087?",
+          options: [
+            "Minimum Mode",
+            "Maximum Mode",
+            "Pipelining",
+            "Memory Banking",
+            "Instruction Queue",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that Maximum Mode, activated by grounding MN/MX, allows the 8086 to work with multiple coprocessors, such as the 8087.",
+        },
+        {
+          question:
+            "What is the purpose of the 8286 in the 8086’s minimum mode setup?",
+          options: [
+            "It generates clock signals.",
+            "It acts as a data buffer.",
+            "It latches addresses.",
+            "It controls interrupts.",
+            "It decodes instructions.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that the 8286 is used as a data buffer (data transceiver) in the 8086’s minimum mode hardware connection.",
+        },
+        {
+          question:
+            "What is the allowed variation in the 8086’s 5-volt power supply?",
+          options: ["5%", "10%", "15%", "20%", "25%"],
+          correct: 1,
+          explanation:
+            "The document states that the 8086’s 5-volt DC supply has an allowed variation of 10%.",
+        },
+        {
+          question:
+            "Which addressing mode uses a fixed memory address for the operand?",
+          options: [
+            "Immediate Addressing",
+            "Register Addressing",
+            "Direct Addressing",
+            "Indirect Addressing",
+            "Relative Addressing",
+          ],
+          correct: 2,
+          explanation:
+            "The document defines Direct Addressing as using a fixed memory address for the operand, e.g., MOV AX, [1234h].",
+        },
+        {
+          question:
+            "What is the benefit of separating code and data in the 8086’s memory segmentation?",
+          options: [
+            "It increases clock speed.",
+            "It prevents accidental modification of code.",
+            "It reduces the size of the ALU.",
+            "It eliminates pipelining.",
+            "It simplifies register usage.",
+          ],
+          correct: 1,
+          explanation:
+            "The document highlights that keeping instructions in the Code Segment (CS) separate from data helps prevent accidental modification of code.",
+        },
+        {
+          question: "What does the 8086 do when the TEST signal is logic 0?",
+          options: [
+            "It resets the processor.",
+            "It executes a WAIT instruction.",
+            "It locks the bus.",
+            "It disables interrupts.",
+            "It switches to maximum mode.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when the TEST input is logic 0, the 8086 executes a WAIT instruction for synchronization.",
+        },
+        {
+          question:
+            "Which register in the 8086 is used for I/O operations alongside arithmetic tasks?",
+          options: ["AX", "BX", "CX", "DX", "SI"],
+          correct: 0,
+          explanation:
+            "The document describes the AX (Accumulator Register) as the main register for arithmetic, logic, data transfer, and I/O operations.",
+        },
+        {
+          question: "What is the purpose of the S7 status signal in the 8086?",
+          options: [
+            "It indicates the accessed segment.",
+            "It reflects the Interrupt Flag.",
+            "It is always zero.",
+            "It is always one.",
+            "It controls string direction.",
+          ],
+          correct: 3,
+          explanation:
+            "The document notes that the S7 status signal is always one in the 8086.",
+        },
+        {
+          question:
+            "How does the 8086 handle an IO Write operation in minimum mode?",
+          options: [
+            "RD=0, WR=1, M/IO=1",
+            "RD=1, WR=0, M/IO=1",
+            "RD=0, WR=1, M/IO=0",
+            "RD=1, WR=0, M/IO=0",
+            "RD=0, WR=0, M/IO=0",
+          ],
+          correct: 3,
+          explanation:
+            "The document specifies that an IO Write operation in minimum mode uses RD=1, WR=0, and M/IO=0.",
+        },
+        {
+          question:
+            "What is the benefit of the 8086’s pointer and index registers?",
+          options: [
+            "They increase clock speed.",
+            "They enable efficient data movement and memory operations.",
+            "They reduce the size of memory segments.",
+            "They eliminate the need for a data bus.",
+            "They simplify instruction decoding.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that pointer and index registers (SP, BP, SI, DI) enable efficient data movement and fast execution of memory-based operations.",
+        },
+        {
+          question: "What is the role of the 8086’s flag register?",
+          options: [
+            "It fetches instructions from memory.",
+            "It stores the status of operations and controls execution flow.",
+            "It manages memory segmentation.",
+            "It prefetches instruction bytes.",
+            "It generates control signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the flag register stores information about operation results and controls execution flow in the 8086.",
+        },
+      ];
+      let currentModel = questionsModel1;
+      let currentQuestion = 0;
+      let score = 0;
+      let answered = Array(50).fill(false);
+      let userAnswers = Array(50).fill(null);
+      let wrongQuestions = [];
+      let isRetrying = false;
+
+      const questionArea = document.getElementById("questionArea");
+      const explanationDiv = document.getElementById("explanation");
+      const scoreDiv = document.getElementById("score");
+      const tableBody = document.getElementById("tableBody");
+      const modelSelect = document.getElementById("modelSelect");
+      const submitBtn = document.getElementById("submitBtn");
+      const overlay = document.getElementById("overlay");
+      const popup = document.getElementById("popup");
+      const popupScore = document.getElementById("popupScore");
+      const retryWrongBtn = document.getElementById("retryWrongBtn");
+      const closePopupBtn = document.getElementById("closePopupBtn");
+
+      function displayQuestion() {
+        const q = currentModel[currentQuestion];
+        questionArea.innerHTML = `
+          <p class="text-lg text-gray-800">${currentQuestion + 1}. ${
+          q.question
+        }</p>
+          <ul class="space-y-2 mt-2">
+            ${q.options
+              .map(
+                (opt, i) => `
+              <li><label class="flex items-center"><input type="radio" name="answer" value="${i}" ${
+                  answered[currentQuestion] ? "disabled" : ""
+                } class="mr-2"> ${opt}</label></li>
+            `
+              )
+              .join("")}
+          </ul>
+        `;
+        explanationDiv.classList.add("hidden");
+        submitBtn.textContent = answered[currentQuestion]
+          ? "Next"
+          : "Submit Answer";
+        if (
+          answered[currentQuestion] &&
+          userAnswers[currentQuestion] !== null
+        ) {
+          showExplanation();
+        }
+      }
+
+      function updateScore() {
+        scoreDiv.textContent = `Score: ${score}/${currentModel.length}`;
+      }
+
+      function updateTable() {
+        tableBody.innerHTML = currentModel
+          .map((_, i) => {
+            const status = answered[i]
+              ? userAnswers[i] === currentModel[i].correct
+                ? "Correct"
+                : "Incorrect"
+              : "Not Answered";
+            const className = answered[i]
+              ? userAnswers[i] === currentModel[i].correct
+                ? "correct"
+                : "incorrect"
+              : "";
+            return `
+            <tr class="${i % 2 === 0 ? "bg-gray-50" : "bg-white"}">
+              <td class="border p-2">${i + 1}</td>
+              <td class="border p-2 ${className}">${status}</td>
+            </tr>`;
+          })
+          .join("");
+      }
+
+      function showExplanation() {
+        const q = currentModel[currentQuestion];
+        const userAnswer = userAnswers[currentQuestion];
+        explanationDiv.classList.remove("hidden");
+        if (userAnswer === q.correct) {
+          explanationDiv.innerHTML = `<p class="correct">Correct! ${q.explanation}</p>`;
+        } else {
+          explanationDiv.innerHTML = `<p class="incorrect">Wrong! Correct answer: ${
+            q.options[q.correct]
+          }. ${q.explanation}</p>`;
+        }
+      }
+
+      function submitAnswer() {
+        if (answered[currentQuestion]) {
+          goToNextQuestion();
+          return;
+        }
+        const selected = document.querySelector('input[name="answer"]:checked');
+        if (!selected) {
+          alert("Please select an answer!");
+          return;
+        }
+        const answer = parseInt(selected.value);
+        userAnswers[currentQuestion] = answer;
+        answered[currentQuestion] = true;
+        if (answer === currentModel[currentQuestion].correct) {
+          score++;
+        } else {
+          wrongQuestions.push(currentQuestion);
+        }
+        showExplanation();
+        updateScore();
+        updateTable();
+        document
+          .querySelectorAll('input[name="answer"]')
+          .forEach((input) => (input.disabled = true));
+        submitBtn.textContent = "Next";
+      }
+
+      function goToNextQuestion() {
+        currentQuestion++;
+        if (currentQuestion >= currentModel.length) {
+          showScorePopup();
+        } else {
+          displayQuestion();
+        }
+      }
+
+      function showScorePopup() {
+        overlay.style.display = "block";
+        popup.style.display = "block";
+        popupScore.textContent = `Your score: ${score}/${currentModel.length}`;
+        retryWrongBtn.style.display =
+          wrongQuestions.length > 0 ? "inline-block" : "none";
+      }
+
+      function resetQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        answered.fill(false);
+        userAnswers.fill(null);
+        wrongQuestions = [];
+        isRetrying = false;
+
+        if (modelSelect.value === "model1") currentModel = questionsModel1;
+        if (modelSelect.value === "model2") currentModel = questionsModel2;
+        if (modelSelect.value === "model3") currentModel = questionsModel3;
+        if (modelSelect.value === "model4") currentModel = questionsModel4;
+        displayQuestion();
+        updateScore();
+        updateTable();
+        overlay.style.display = "none";
+        popup.style.display = "none";
+      }
+
+      function randomizeQuestions() {
+        for (let i = currentModel.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [currentModel[i], currentModel[j]] = [
+            currentModel[j],
+            currentModel[i],
+          ];
+        }
+        resetQuiz();
+      }
+
+      function switchModel() {
+        resetQuiz();
+      }
+
+      function retryWrongQuestions() {
+        if (wrongQuestions.length === 0) return;
+        const wrongIndices = [...wrongQuestions];
+        currentModel = wrongIndices.map((i) => currentModel[i]);
+        currentQuestion = 0;
+        score = 0;
+        answered = Array(currentModel.length).fill(false);
+        userAnswers = Array(currentModel.length).fill(null);
+        wrongQuestions = [];
+        isRetrying = true;
+        displayQuestion();
+        updateScore();
+        updateTable();
+        overlay.style.display = "none";
+        popup.style.display = "none";
+      }
+
+      submitBtn.addEventListener("click", submitAnswer);
+      document.getElementById("resetBtn").addEventListener("click", resetQuiz);
+      document
+        .getElementById("randomBtn")
+        .addEventListener("click", randomizeQuestions);
+      modelSelect.addEventListener("change", switchModel);
+      retryWrongBtn.addEventListener("click", retryWrongQuestions);
+      closePopupBtn.addEventListener("click", () => {
+        overlay.style.display = "none";
+        popup.style.display = "none";
+      });
+
+      displayQuestion();
+      updateScore();
+      updateTable();
+    </script>
+  </body>
+</html>
