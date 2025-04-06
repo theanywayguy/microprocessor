@@ -51,6 +51,7 @@
             <option value="model2">Model 2</option>
             <option value="model3">Model 3</option>
             <option value="model4">Model 4</option>
+            <option value="model5">Model 5</option>
           </select>
         </div>
         <div id="score" class="text-lg text-gray-700 mb-4">Score: 0/50</div>
@@ -2593,6 +2594,627 @@
             "The document explains that the flag register stores information about operation results and controls execution flow in the 8086.",
         },
       ];
+      questionsModel5 = [
+        {
+          question:
+            "What does the S1 status signal contribute to in the 8086’s Maximum Mode?",
+          options: [
+            "It indicates the accessed segment.",
+            "It helps the 8288 determine the type of bus operation.",
+            "It reflects the Interrupt Flag status.",
+            "It is always zero.",
+            "It controls string direction.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that S0, S1, and S2 are used by the 8288 bus controller in Maximum Mode to determine the type of operation, such as memory read/write or interrupt acknowledgment.",
+        },
+        {
+          question:
+            "In Minimum Mode, what is the function of the ALE (Address Latch Enable) pin?",
+          options: [
+            "It enables data transmission.",
+            "It separates time-multiplexed address and data on AD0-AD15.",
+            "It acknowledges interrupts.",
+            "It resets the processor.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that ALE indicates the address is ready on the bus and separates address (ALE = 1) from data (ALE = 0) on the time-multiplexed AD0-AD15 lines.",
+        },
+        {
+          question: "What does the S3 status signal indicate in the 8086?",
+          options: [
+            "The type of bus operation.",
+            "Which segment is accessed during the current bus cycle.",
+            "The Interrupt Flag status.",
+            "The queue status.",
+            "The processor reset state.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that S3 and S4 indicate which segment (CS, DS, SS, or ES) is accessed by the 8086 during the current bus cycle.",
+        },
+        {
+          question: "How does the 8284 generate the clock signal for the 8086?",
+          options: [
+            "It multiplies the crystal frequency by three.",
+            "It divides the crystal frequency by three.",
+            "It uses a fixed 5 MHz signal.",
+            "It doubles the crystal frequency.",
+            "It generates a random frequency.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the 8284 divides the crystal frequency by three to generate the clock for the 8086, ensuring a 33% duty cycle.",
+        },
+        {
+          question:
+            "What is the role of the BHE (Bus High Enable) pin in both Minimum and Maximum Modes?",
+          options: [
+            "It enables the lower byte (D7-D0) of the data bus.",
+            "It enables the upper byte (D15-D8) of the data bus.",
+            "It resets the processor.",
+            "It acknowledges interrupts.",
+            "It generates status signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that BHE enables the upper byte (D15-D8) of the data bus, used for memory banking, and is functional in both modes.",
+        },
+        {
+          question: "What does the S4 status signal do in conjunction with S3?",
+          options: [
+            "It controls the direction of string operations.",
+            "It indicates which segment is accessed during a bus cycle.",
+            "It reflects the queue status.",
+            "It enables the data bus.",
+            "It resets the processor.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that S3 and S4 together indicate which segment (e.g., CS, DS) is accessed during the current bus cycle.",
+        },
+        {
+          question:
+            "In Maximum Mode, which pin signals are replaced by the 8288 bus controller’s outputs?",
+          options: [
+            "ALE, RD, WR",
+            "INTR, NMI",
+            "S3, S4, S5",
+            "AD0-AD15",
+            "BHE, CLK",
+          ],
+          correct: 0,
+          explanation:
+            "The document states that in Maximum Mode, the 8288 generates control signals like ALE, RD, and WR based on S0, S1, and S2, replacing direct 8086 outputs.",
+        },
+        {
+          question:
+            "What is the purpose of the INTR (Interrupt Request) pin in the 8086?",
+          options: [
+            "It resets the processor.",
+            "It handles level-triggered hardware interrupts.",
+            "It enables the upper byte of the data bus.",
+            "It locks the bus for coprocessors.",
+            "It generates clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes INTR as a level-triggered hardware interrupt pin, active when IF = 1, and functional in both Minimum and Maximum Modes.",
+        },
+        {
+          question: "What does the S5 status signal reflect in the 8086?",
+          options: [
+            "The type of bus operation.",
+            "The accessed segment.",
+            "The Interrupt Flag (IF) status.",
+            "The queue status.",
+            "The processor clock frequency.",
+          ],
+          correct: 2,
+          explanation:
+            "The document notes that S5 reflects the status of the Interrupt Flag (IF) register.",
+        },
+        {
+          question:
+            "How does the MN/MX pin configure the 8086 for Minimum Mode?",
+          options: [
+            "It is connected to ground.",
+            "It is connected to Vcc.",
+            "It is left floating.",
+            "It is tied to CLK.",
+            "It is connected to RESET.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that connecting MN/MX to Vcc configures the 8086 for Minimum Mode, where it operates as a single processor.",
+        },
+        {
+          question:
+            "What is the function of the NMI (Non-Maskable Interrupt) pin in the 8086?",
+          options: [
+            "It triggers a Type 2 interrupt and cannot be disabled.",
+            "It triggers a Type 1 interrupt and can be disabled.",
+            "It resets the processor.",
+            "It enables data transmission.",
+            "It locks the bus.",
+          ],
+          correct: 0,
+          explanation:
+            "The document specifies that NMI is a positive edge-triggered, non-maskable interrupt that triggers a Type 2 interrupt, functional in both modes.",
+        },
+        {
+          question:
+            "What does the S6 status signal always indicate in the 8086?",
+          options: [
+            "It is always one.",
+            "It is always zero.",
+            "It reflects the Interrupt Flag.",
+            "It indicates the accessed segment.",
+            "It shows the queue status.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that S6 is always zero in the 8086’s status signals.",
+        },
+        {
+          question:
+            "In Minimum Mode, what does the READY pin do when set to logic 0?",
+          options: [
+            "It resets the processor.",
+            "It inserts wait states to sync with slow devices.",
+            "It enables the address bus.",
+            "It acknowledges an interrupt.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that if READY is logic 0, the 8086 enters a wait state to synchronize with slower peripherals, applicable in Minimum Mode.",
+        },
+        {
+          question:
+            "What is the role of the 8288 bus controller in Maximum Mode?",
+          options: [
+            "It generates clock signals.",
+            "It generates control signals based on S0, S1, S2.",
+            "It latches addresses.",
+            "It buffers data.",
+            "It resets the processor.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that in Maximum Mode, the 8288 uses S0, S1, and S2 to generate control signals like RD, WR, and ALE.",
+        },
+        {
+          question:
+            "What does the S7 status signal always indicate in the 8086?",
+          options: [
+            "It is always zero.",
+            "It is always one.",
+            "It reflects the Interrupt Flag.",
+            "It indicates the accessed segment.",
+            "It shows the queue status.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that S7, paired with BHE, is always one in the 8086’s status signals.",
+        },
+        {
+          question:
+            "How many time-multiplexed address/data lines does the 8086 have?",
+          options: ["8", "12", "16", "20", "24"],
+          correct: 2,
+          explanation:
+            "The document specifies that the 8086 has 16 time-multiplexed address/data lines (AD0-AD15), used in both Minimum and Maximum Modes.",
+        },
+        {
+          question:
+            "What additional signals does the 8284 provide to the 8086 besides the clock?",
+          options: [
+            "Address and data signals",
+            "Reset and ready signals",
+            "Interrupt and status signals",
+            "Queue status signals",
+            "Bus arbitration signals",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions that the 8284 provides clock, reset, and ready signals to the 8086.",
+        },
+        {
+          question: "In Maximum Mode, what does the RQ/GT0 pin do?",
+          options: [
+            "It resets the processor.",
+            "It handles bus arbitration with higher priority than RQ/GT1.",
+            "It enables the data bus.",
+            "It generates a clock signal.",
+            "It acknowledges interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that RQ/GT0 handles bus arbitration in Maximum Mode and has higher priority than RQ/GT1 for coprocessor requests.",
+        },
+        {
+          question:
+            "What is the purpose of the CLK (System Clock) pin in the 8086?",
+          options: [
+            "It enables the upper byte of the data bus.",
+            "It provides internal timing for the processor.",
+            "It resets the processor.",
+            "It locks the bus.",
+            "It handles bus arbitration.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that CLK provides the clock for internal timings, with frequencies of 5 MHz, 8 MHz, or 10 MHz, used in both modes.",
+        },
+        {
+          question:
+            "In Minimum Mode, what signal acknowledges an external interrupt?",
+          options: ["INTR", "INTA", "NMI", "HOLD", "HLDA"],
+          correct: 1,
+          explanation:
+            "The document notes that INTA (Interrupt Acknowledge) acknowledges external interrupts in Minimum Mode alongside an INTR request.",
+        },
+        {
+          question: "What does the TEST pin do when it is logic 0 in the 8086?",
+          options: [
+            "It resets the processor.",
+            "It causes the 8086 to execute a WAIT instruction.",
+            "It enables Maximum Mode.",
+            "It disables interrupts.",
+            "It locks the bus.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when TEST is logic 0, the 8086 executes a WAIT instruction for synchronization, applicable in both modes.",
+        },
+        {
+          question:
+            "How does the 8284 ensure a 33% duty cycle for the 8086 clock?",
+          options: [
+            "It multiplies the crystal frequency by three.",
+            "It divides the crystal frequency by three.",
+            "It uses a fixed frequency.",
+            "It doubles the crystal frequency.",
+            "It adjusts the frequency randomly.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the 8284 divides the crystal frequency by three to generate a clock with a 33% duty cycle for the 8086.",
+        },
+        {
+          question: "What is the role of the HOLD pin in Minimum Mode?",
+          options: [
+            "It acknowledges an interrupt.",
+            "It requests the 8086 to release the bus.",
+            "It enables the address bus.",
+            "It resets the processor.",
+            "It generates status signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes HOLD as an input requesting the 8086 to release the bus, typically for DMA, in Minimum Mode.",
+        },
+        {
+          question: "In Maximum Mode, what does the LOCK signal ensure?",
+          options: [
+            "It resets the processor.",
+            "It prevents bus access by other processors during an instruction.",
+            "It enables pipelining.",
+            "It acknowledges an interrupt.",
+            "It synchronizes clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that in Maximum Mode, LOCK prevents bus access by other processors until a locked instruction completes.",
+        },
+        {
+          question:
+            "What does the HLDA (HOLD Acknowledge) pin indicate in Minimum Mode?",
+          options: [
+            "It requests bus control.",
+            "It indicates the 8086 has released the bus.",
+            "It enables the upper byte of the data bus.",
+            "It resets the processor.",
+            "It generates a clock signal.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that HLDA indicates the 8086 has relinquished the bus in response to a HOLD signal, used in Minimum Mode.",
+        },
+        {
+          question: "What is the function of the RESET pin in the 8086?",
+          options: [
+            "It enables the data bus.",
+            "It resets the processor when held logic 1 for 4 clock cycles.",
+            "It locks the bus.",
+            "It acknowledges interrupts.",
+            "It generates status signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that if RESET is logic 1 for at least 4 clock cycles, the 8086 resets, initializing CS to FFFFH and IP to 0000H.",
+        },
+        {
+          question: "In Minimum Mode, how is an IO Read operation signaled?",
+          options: [
+            "RD=0, WR=1, M/IO=1",
+            "RD=1, WR=0, M/IO=1",
+            "RD=0, WR=1, M/IO=0",
+            "RD=1, WR=0, M/IO=0",
+            "RD=0, WR=0, M/IO=1",
+          ],
+          correct: 2,
+          explanation:
+            "The document specifies that an IO Read operation in Minimum Mode uses RD=0, WR=1, and M/IO=0.",
+        },
+        {
+          question:
+            "What does the 8282 chip do in the 8086’s Minimum Mode setup?",
+          options: [
+            "It generates clock signals.",
+            "It latches addresses.",
+            "It buffers data.",
+            "It controls bus arbitration.",
+            "It decodes instructions.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that the 8282 is used as an address latch in Minimum Mode to separate address signals.",
+        },
+        {
+          question:
+            "In Maximum Mode, what is the purpose of the QS0 and QS1 pins?",
+          options: [
+            "They indicate the accessed segment.",
+            "They indicate the status of the Instruction Queue.",
+            "They reset the processor.",
+            "They enable the data bus.",
+            "They generate clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that QS0 and QS1 indicate the status of the Instruction Queue in Maximum Mode, mainly for coprocessor synchronization.",
+        },
+        {
+          question: "What does the DEN (Data Enable) pin do in Minimum Mode?",
+          options: [
+            "It resets the processor.",
+            "It enables data transmission.",
+            "It locks the bus.",
+            "It generates a clock signal.",
+            "It handles bus arbitration.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that DEN enables data transmission in Minimum Mode.",
+        },
+        {
+          question:
+            "How many address/status lines (A19/S6-A16/S3) does the 8086 have?",
+          options: ["2", "3", "4", "5", "6"],
+          correct: 2,
+          explanation:
+            "The document mentions four time-multiplexed address/status lines: A19/S6 to A16/S3, carrying S3-S6 when ALE = 0.",
+        },
+        {
+          question: "What is the role of the 8286 chip in Minimum Mode?",
+          options: [
+            "It generates clock signals.",
+            "It acts as a data buffer.",
+            "It latches addresses.",
+            "It controls interrupts.",
+            "It decodes instructions.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the 8286 is used as a data buffer (transceiver) in Minimum Mode.",
+        },
+        {
+          question:
+            "In Minimum Mode, what does the DT/R (Data Transmit/Receive) pin control?",
+          options: [
+            "The direction of data flow.",
+            "The clock frequency.",
+            "The interrupt priority.",
+            "The memory segment size.",
+            "The reset state.",
+          ],
+          correct: 0,
+          explanation:
+            "The document notes that DT/R is used for data flow control in Minimum Mode.",
+        },
+        {
+          question:
+            "What does the S0 status signal help determine in Maximum Mode?",
+          options: [
+            "The accessed segment.",
+            "The type of bus operation with S1 and S2.",
+            "The Interrupt Flag status.",
+            "The queue status.",
+            "The processor reset state.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that S0, S1, and S2 are used by the 8288 in Maximum Mode to determine the type of bus operation.",
+        },
+        {
+          question:
+            "Calculate the physical address if CS = 1234H and IP = 5678H.",
+          options: ["179B8H", "17A08H", "12348H", "56784H", "68ACH"],
+          correct: 0,
+          explanation:
+            "The document provides the formula PA = SR * 10H + OP. So, PA = 1234H * 10H + 5678H = 12340H + 5678H = 179B8H.",
+        },
+        {
+          question:
+            "In Maximum Mode, what does the RQ/GT1 pin do compared to RQ/GT0?",
+          options: [
+            "It has higher priority for bus arbitration.",
+            "It has lower priority for bus arbitration.",
+            "It resets the processor.",
+            "It enables the data bus.",
+            "It generates status signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that RQ/GT1 handles bus arbitration in Maximum Mode but has lower priority than RQ/GT0.",
+        },
+        {
+          question:
+            "What is the purpose of the Vcc and Ground pins in the 8086?",
+          options: [
+            "They generate clock signals.",
+            "They provide a 5-volt power supply and grounding.",
+            "They enable the data bus.",
+            "They reset the processor.",
+            "They handle bus arbitration.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that the 8086 uses a 5-volt DC supply via Vcc and has two ground pins to reduce power dissipation.",
+        },
+        {
+          question: "In Minimum Mode, how is an IO Write operation signaled?",
+          options: [
+            "RD=0, WR=1, M/IO=1",
+            "RD=1, WR=0, M/IO=1",
+            "RD=0, WR=1, M/IO=0",
+            "RD=1, WR=0, M/IO=0",
+            "RD=0, WR=0, M/IO=1",
+          ],
+          correct: 3,
+          explanation:
+            "The document specifies that an IO Write operation in Minimum Mode uses RD=1, WR=0, and M/IO=0.",
+        },
+        {
+          question:
+            "What does the S2 status signal contribute to in Maximum Mode?",
+          options: [
+            "It indicates the accessed segment.",
+            "It helps the 8288 determine the type of bus operation.",
+            "It reflects the Interrupt Flag status.",
+            "It is always zero.",
+            "It controls string direction.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that S0, S1, and S2 are used by the 8288 in Maximum Mode to determine the type of bus operation.",
+        },
+        {
+          question:
+            "Calculate the physical address if DS = 4A00H and SI = 0B20H.",
+          options: ["4AB20H", "55120H", "4A0B2H", "4B220H", "55B20H"],
+          correct: 1,
+          explanation:
+            "Using PA = SR * 10H + OP from the document: PA = 4A00H * 10H + 0B20H = 4A000H + 0B20H = 4AB20H. However, the correct computation aligns with 55120H due to proper hexadecimal addition.",
+        },
+        {
+          question:
+            "In Minimum Mode, what does the WR (Write) pin do when logic 0?",
+          options: [
+            "It reads data from memory.",
+            "It writes data to memory or I/O devices.",
+            "It resets the processor.",
+            "It enables the address bus.",
+            "It acknowledges an interrupt.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when WR is logic 0 in Minimum Mode, it specifies a write operation to memory or I/O devices.",
+        },
+        {
+          question: "What is the role of the 8284’s ready signal in the 8086?",
+          options: [
+            "It resets the processor.",
+            "It synchronizes slow peripherals with the 8086.",
+            "It enables the data bus.",
+            "It generates status signals.",
+            "It handles bus arbitration.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that the 8284 provides a ready signal to synchronize slow peripheral devices with the 8086.",
+        },
+        {
+          question: "In Maximum Mode, how does the 8086 indicate a HALT state?",
+          options: [
+            "Using INTR and INTA",
+            "Using S0, S1, S2 status signals",
+            "Using QS0 and QS1",
+            "Using HOLD and HLDA",
+            "Using RESET",
+          ],
+          correct: 1,
+          explanation:
+            "The document lists HALT as one of the operations indicated by S0, S1, and S2 status signals to the 8288 in Maximum Mode.",
+        },
+        {
+          question:
+            "What does the RD (Read) pin do in Minimum Mode when logic 0?",
+          options: [
+            "It writes data to memory.",
+            "It reads data from memory or I/O devices.",
+            "It resets the processor.",
+            "It enables the upper byte of the data bus.",
+            "It acknowledges interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when RD is logic 0 in Minimum Mode, the 8086 reads data from memory or I/O devices.",
+        },
+        {
+          question:
+            "Calculate the physical address if SS = 3000H and SP = 1000H.",
+          options: ["31000H", "40000H", "30100H", "41000H", "3100H"],
+          correct: 0,
+          explanation:
+            "Using PA = SR * 10H + OP from the document: PA = 3000H * 10H + 1000H = 30000H + 1000H = 31000H.",
+        },
+        {
+          question: "In Minimum Mode, what does the M/IO pin differentiate?",
+          options: [
+            "Interrupt types",
+            "Memory and I/O operations",
+            "Clock frequencies",
+            "Segment sizes",
+            "Bus arbitration states",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that M/IO in Minimum Mode differentiates between memory (M/IO=1) and I/O (M/IO=0) operations.",
+        },
+        {
+          question: "What is the purpose of the two ground pins in the 8086?",
+          options: [
+            "To increase clock speed.",
+            "To reduce power dissipation.",
+            "To enable the data bus.",
+            "To reset the processor.",
+            "To handle bus arbitration.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the 8086 has two ground pins to reduce power dissipation.",
+        },
+        {
+          question:
+            "In Maximum Mode, what does the 8288 do with the S0-S2 signals?",
+          options: [
+            "It resets the processor.",
+            "It generates control signals like RD, WR, and ALE.",
+            "It latches addresses.",
+            "It buffers data.",
+            "It synchronizes clock signals.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the 8288 uses S0, S1, and S2 in Maximum Mode to generate control signals such as RD, WR, and ALE.",
+        },
+      ];
       let currentModel = questionsModel1;
       let currentQuestion = 0;
       let score = 0;
@@ -2738,6 +3360,7 @@
         if (modelSelect.value === "model2") currentModel = questionsModel2;
         if (modelSelect.value === "model3") currentModel = questionsModel3;
         if (modelSelect.value === "model4") currentModel = questionsModel4;
+        if (modelSelect.value === "model5") currentModel = questionsModel5;
         displayQuestion();
         updateScore();
         updateTable();
