@@ -52,6 +52,7 @@
             <option value="model3">Model 3</option>
             <option value="model4">Model 4</option>
             <option value="model5">Model 5</option>
+            <option value="model6">Model 6</option>
           </select>
         </div>
         <div id="score" class="text-lg text-gray-700 mb-4">Score: 0/50</div>
@@ -2594,7 +2595,7 @@
             "The document explains that the flag register stores information about operation results and controls execution flow in the 8086.",
         },
       ];
-      questionsModel5 = [
+      const questionsModel5 = [
         {
           question:
             "What does the S1 status signal contribute to in the 8086’s Maximum Mode?",
@@ -3215,9 +3216,587 @@
             "The document explains that the 8288 uses S0, S1, and S2 in Maximum Mode to generate control signals such as RD, WR, and ALE.",
         },
       ];
+      const questionsModel6 = [
+        {
+          question:
+            "In I2C protocol, how many devices can theoretically be connected using 7-bit addressing?",
+          options: ["64", "128", "256", "32", "512"],
+          correct: 1,
+          explanation: "2⁷ = 128 devices max.",
+        },
+        {
+          question:
+            "Which of the following is a characteristic of I2C protocol?",
+          options: [
+            "Full duplex",
+            "Uses SDA and SCL lines",
+            "Requires 4 wires",
+            "Designed for high-speed Ethernet",
+            "No master-slave concept",
+          ],
+          correct: 1,
+          explanation: "I2C uses only SDA and SCL for communication.",
+        },
+        {
+          question:
+            "In SPI protocol, what is the purpose of the SS (Slave Select) pin?",
+          options: [
+            "Sync clock",
+            "Selects which slave to communicate with",
+            "Sends data",
+            "Reads parity",
+            "Manages ACK",
+          ],
+          correct: 1,
+          explanation: "SS is active-low signal to choose the slave.",
+        },
+        {
+          question: "What is the max speed typically supported by SPI?",
+          options: ["1 Mbps", "400 Kbps", "10 Mbps", "12 Mbps", "480 Mbps"],
+          correct: 2,
+          explanation: "SPI supports up to 10 Mbps standard.",
+        },
+        {
+          question:
+            "What is the function of the clock stretching feature in I2C?",
+          options: [
+            "Master resets slaves",
+            "Slave holds the clock low when not ready",
+            "Master slows down bus",
+            "Arbitration reset",
+            "Priority encoding",
+          ],
+          correct: 1,
+          explanation: "Slaves can delay the master via clock stretching.",
+        },
+        {
+          question: "What distinguishes UART from SPI and I2C?",
+          options: [
+            "Uses clock",
+            "Requires 4 wires",
+            "It is asynchronous",
+            "Needs pull-up resistors",
+            "Only supports master mode",
+          ],
+          correct: 2,
+          explanation: "UART is asynchronous (no clock signal).",
+        },
+        {
+          question:
+            "In UART, which of the following is NOT typically included in a transmission frame?",
+          options: [
+            "Start bit",
+            "Stop bit",
+            "Parity bit",
+            "Clock signal",
+            "Data bits",
+          ],
+          correct: 3,
+          explanation: "UART doesn’t use a clock.",
+        },
+        {
+          question: "What type of communication does RS232 support?",
+          options: [
+            "Half duplex",
+            "I2C",
+            "Full duplex asynchronous",
+            "SPI",
+            "USB 3.0",
+          ],
+          correct: 2,
+          explanation: "RS232 is asynchronous and supports full duplex.",
+        },
+        {
+          question: "Which USB version introduced 480 Mbps transfer speed?",
+          options: ["USB 1.1", "USB 3.0", "USB 2.0", "USB 1.0", "USB 3.1"],
+          correct: 2,
+          explanation: "USB 2.0 brought 480 Mbps.",
+        },
+        {
+          question: "SPI Mode 3 is defined by which combination?",
+          options: [
+            "CPOL=0, CPHA=0",
+            "CPOL=1, CPHA=0",
+            "CPOL=0, CPHA=1",
+            "CPOL=1, CPHA=1",
+            "CPOL=1, CPHA=2",
+          ],
+          correct: 3,
+          explanation: "Mode 3: CPOL=1, CPHA=1",
+        },
+        {
+          question: "What is the role of DTE and DCE in RS232?",
+          options: [
+            "Defines cable size",
+            "Defines device types for communication",
+            "Measures baud rate",
+            "Handles parity errors",
+            "Interrupt line assignment",
+          ],
+          correct: 1,
+          explanation: "DTE = terminal (e.g. PC), DCE = modem",
+        },
+        {
+          question: "Which protocol uses start and stop bits but no clock?",
+          options: ["SPI", "I2C", "UART", "USB", "CAN"],
+          correct: 2,
+          explanation: "UART is asynchronous and uses start/stop bits.",
+        },
+        {
+          question:
+            "What limits the number of devices in I2C aside from address bits?",
+          options: [
+            "Data rate",
+            "Processor speed",
+            "Bus capacitance",
+            "Voltage regulator",
+            "Baud rate",
+          ],
+          correct: 2,
+          explanation: "Max total bus capacitance = 400 pF",
+        },
+        {
+          question:
+            "Which protocol uses master-driven clock with MISO and MOSI lines?",
+          options: ["UART", "RS232", "SPI", "USB", "I2C"],
+          correct: 2,
+          explanation: "SPI uses SCLK, MOSI, MISO",
+        },
+        {
+          question: "In USB communication, who always initiates data transfer?",
+          options: ["Slave", "Host", "Master", "Modem", "Peripheral"],
+          correct: 1,
+          explanation: "Only host initiates USB data transfer.",
+        },
+        {
+          question: "What happens in RS232 when a DTE sends RTS?",
+          options: [
+            "Data is transmitted immediately",
+            "Transmission stops",
+            "DCE responds with CTS",
+            "Baud rate resets",
+            "Parity is recalculated",
+          ],
+          correct: 2,
+          explanation: "RTS/CTS is the handshake mechanism.",
+        },
+        {
+          question: "What is the max addressing for USB?",
+          options: ["64", "63", "127", "255", "512"],
+          correct: 2,
+          explanation: "7-bit address = 127 devices",
+        },
+        {
+          question: "What is the parity bit used for in UART?",
+          options: [
+            "Speed",
+            "Direction",
+            "Baud rate",
+            "Simple error detection",
+            "Flow control",
+          ],
+          correct: 3,
+          explanation: "Parity is basic error detection",
+        },
+        {
+          question: "Why is SPI faster than I2C?",
+          options: [
+            "More error detection",
+            "Better shielding",
+            "No start/stop or ACK overhead",
+            "Built-in parity",
+            "Uses USB backbone",
+          ],
+          correct: 2,
+          explanation: "SPI is simple and doesn’t need ACK/start/stop",
+        },
+        {
+          question: "Which protocol requires pull-up resistors?",
+          options: ["UART", "I2C", "SPI", "USB", "RS232"],
+          correct: 1,
+          explanation: "I2C needs pull-ups for open-drain lines",
+        },
+
+        {
+          question: "How many interrupts can a single 8259 handle?",
+          options: ["4", "16", "8", "64", "128"],
+          correct: 2,
+          explanation: "One 8259 handles 8 interrupts.",
+        },
+        {
+          question: "What is the function of the ISR register in 8259?",
+          options: [
+            "Stores pending interrupts",
+            "Tracks current servicing interrupt",
+            "Masks all IRQs",
+            "Counts interrupts",
+            "Controls vector location",
+          ],
+          correct: 1,
+          explanation: "ISR = In-Service Register",
+        },
+        {
+          question: "What does the IMR in 8259 do?",
+          options: [
+            "Sets base vector",
+            "Enables master mode",
+            "Masks individual interrupt lines",
+            "Loads program counter",
+            "Counts clocks",
+          ],
+          correct: 2,
+          explanation: "IMR = Interrupt Mask Register",
+        },
+        {
+          question: "How many 8259s can be cascaded?",
+          options: ["4", "8", "16", "32", "2"],
+          correct: 1,
+          explanation: "1 master + 8 slaves = 64 interrupts total",
+        },
+        {
+          question: "The 8255 peripheral interface contains how many ports?",
+          options: ["2", "3", "1", "4", "6"],
+          correct: 1,
+          explanation: "Port A, B, and C",
+        },
+        {
+          question: "Which port and mode combination is NOT valid in 8255?",
+          options: [
+            "Port A - Mode 0",
+            "Port B - Mode 1",
+            "Port C - BSR Mode",
+            "Port A - Mode 2",
+            "Port B - Mode 2",
+          ],
+          correct: 4,
+          explanation: "Port B doesn't support Mode 2",
+        },
+        {
+          question: "In BSR mode, which port is affected?",
+          options: ["Port A", "Port B", "Port C", "Port D", "All ports"],
+          correct: 2,
+          explanation: "BSR mode targets Port C bits only",
+        },
+        {
+          question: "Which of these is a handshake mode?",
+          options: ["Mode 0", "Mode 1", "Mode 3", "Mode 4", "Mode 5"],
+          correct: 1,
+          explanation: "Mode 1 is handshake I/O",
+        },
+        {
+          question: "Which device expands interrupt handling for 8085?",
+          options: ["8251", "8259", "8255", "8253", "8279"],
+          correct: 1,
+          explanation: "8259 is the Programmable Interrupt Controller",
+        },
+        {
+          question: "Which peripheral handles timed delays without CPU?",
+          options: ["8259", "8254", "8255", "8257", "MAX232"],
+          correct: 1,
+          explanation: "8254 = Programmable Timer",
+        },
+        {
+          question: "8257 is used for?",
+          options: [
+            "Timer control",
+            "Interrupt management",
+            "Direct memory access",
+            "Baud rate generation",
+            "I/O latching",
+          ],
+          correct: 2,
+          explanation: "8257 handles DMA transfers",
+        },
+        {
+          question: "Which of the following allows 8257 to control buses?",
+          options: ["INTA", "HOLD / HLDA", "RST7.5", "RD/WR", "CS"],
+          correct: 1,
+          explanation: "HOLD/HLDA handshake between CPU and DMA",
+        },
+        {
+          question: "8253/54 has how many counters?",
+          options: ["2", "4", "3", "5", "6"],
+          correct: 2,
+          explanation: "Counter 0, 1, and 2",
+        },
+        {
+          question: "What mode in 8253 is used for square wave generation?",
+          options: ["Mode 0", "Mode 1", "Mode 4", "Mode 3", "Mode 5"],
+          correct: 3,
+          explanation: "Mode 3 = square wave generator",
+        },
+        {
+          question: "What is the control word format used for in 8255?",
+          options: [
+            "Address decoding",
+            "Configuring ports and modes",
+            "Reading input",
+            "Counting interrupts",
+            "Setting jump locations",
+          ],
+          correct: 1,
+          explanation: "Control word sets mode and direction of ports",
+        },
+        {
+          question: "What does the A0 and A1 lines do in 8255?",
+          options: [
+            "Control interrupts",
+            "Select delay",
+            "Select ports/control register",
+            "Select power mode",
+            "Enable DMA",
+          ],
+          correct: 2,
+          explanation: "A0/A1 help access Port A/B/C or control reg",
+        },
+        {
+          question: "What is the main purpose of MAX232?",
+          options: [
+            "Baud rate control",
+            "Voltage level shifting",
+            "Pin multiplexing",
+            "Power regulation",
+            "DMA decoding",
+          ],
+          correct: 1,
+          explanation: "Converts RS232 voltage to MCU level",
+        },
+        {
+          question:
+            "Which control signal is used by 8259 to send interrupt to 8085?",
+          options: ["RD", "INT", "HLDA", "ALE", "TR"],
+          correct: 1,
+          explanation: "INT connects to INTR pin of CPU",
+        },
+        {
+          question: "8254 counter values can be loaded in:",
+          options: [
+            "MSB first only",
+            "LSB only",
+            "ASCII",
+            "LSB then MSB",
+            "BCD",
+          ],
+          correct: 3,
+          explanation: "Write format can be LSB → MSB",
+        },
+        {
+          question: "What causes the 8254 OUT pin to toggle in Mode 3?",
+          options: [
+            "GATE = 0",
+            "On half count",
+            "On overflow",
+            "On reset",
+            "After 1 second",
+          ],
+          correct: 1,
+          explanation: "In Mode 3, OUT toggles on half terminal count",
+        },
+        {
+          question:
+            "In the 8051 microcontroller, which of the following is NOT a valid interrupt source?",
+          options: [
+            "Timer 0 Overflow",
+            "External Interrupt 1",
+            "UART Receive",
+            "Port 1 Change",
+            "Timer 2 Overflow",
+          ],
+          correct: 4,
+          explanation:
+            "The 8051 supports 5 interrupt sources: Timer 0, Timer 1, External Interrupts 0 & 1, and Serial (UART). Timer 2 is not part of standard 8051 interrupts.",
+        },
+        {
+          question:
+            "What is the vector address for External Interrupt 0 in the 8051?",
+          options: ["0003H", "0003H", "0013H", "001B0H", "0000H"],
+          correct: 0,
+          explanation: "EX0 is vectored to address 0003H.",
+        },
+        {
+          question: "Which interrupt has the highest priority in 8051?",
+          options: [
+            "Timer 0",
+            "Timer 1",
+            "External Interrupt 0",
+            "Serial",
+            "External Interrupt 1",
+          ],
+          correct: 2,
+          explanation: "By default, EX0 has the highest hardware priority.",
+        },
+        {
+          question:
+            "What happens if two interrupts occur simultaneously and have the same priority?",
+          options: [
+            "Lower memory vector is serviced",
+            "Interrupts are ignored",
+            "The one with the lower vector address is serviced first",
+            "Random one is chosen",
+            "CPU resets",
+          ],
+          correct: 2,
+          explanation:
+            "The 8051 services the one with the lower vector address in such a case.",
+        },
+        {
+          question: "The IE (Interrupt Enable) register's EA bit does what?",
+          options: [
+            "Enables Timer 0",
+            "Sets priority for EX0",
+            "Globally enables all interrupts",
+            "Enables serial communication",
+            "Enables only Timer interrupts",
+          ],
+          correct: 2,
+          explanation: "EA = 1 enables all enabled interrupts globally.",
+        },
+        {
+          question:
+            "Which of the following IE register bits enables Timer 1 interrupt?",
+          options: ["ET0", "EX1", "ET1", "ES", "EA"],
+          correct: 2,
+          explanation: "ET1 enables Timer 1 interrupt.",
+        },
+        {
+          question: "Which bit in the TCON register is associated with EX0?",
+          options: ["IE0", "IT0", "TF0", "TR0", "TF1"],
+          correct: 1,
+          explanation: "IT0 defines the triggering mode for EX0.",
+        },
+        {
+          question: "What is the function of the IP register in 8051?",
+          options: [
+            "Controls clock",
+            "Sets baud rate",
+            "Initializes timers",
+            "Sets interrupt priorities",
+            "Enables port latching",
+          ],
+          correct: 3,
+          explanation: "IP = Interrupt Priority register.",
+        },
+        {
+          question:
+            "When an interrupt is acknowledged, the 8051 automatically:",
+          options: [
+            "Skips next instruction",
+            "Pushes PC to stack and jumps to ISR",
+            "Resets timers",
+            "Halts execution",
+            "Writes to Port 0",
+          ],
+          correct: 1,
+          explanation:
+            "Interrupts cause the current PC to be pushed and control transferred.",
+        },
+        {
+          question: "Which bit in IE enables the serial interrupt?",
+          options: ["EX0", "ET1", "ES", "EA", "IT0"],
+          correct: 2,
+          explanation: "ES enables Serial Interrupt.",
+        },
+        {
+          question: "How is a level-triggered external interrupt reset?",
+          options: [
+            "Software only",
+            "Automatically after ISR",
+            "By removing the external signal",
+            "It can’t be reset",
+            "Via TCON",
+          ],
+          correct: 2,
+          explanation:
+            "Level-triggered interrupts remain active until the level goes away.",
+        },
+        {
+          question: "What’s the default vector address for Timer 0 interrupt?",
+          options: ["0013H", "000BH", "0003H", "001BH", "0010H"],
+          correct: 1,
+          explanation: "Timer 0 interrupt vector is 000BH.",
+        },
+        {
+          question:
+            "Which 8051 instruction is used to return from an interrupt service routine?",
+          options: ["JMP", "RET", "RETI", "NOP", "CLR"],
+          correct: 2,
+          explanation:
+            "RETI is used to return from ISR and inform interrupt controller.",
+        },
+        {
+          question: "What happens if EA = 0 in IE register?",
+          options: [
+            "EX0 and EX1 still work",
+            "All interrupts disabled",
+            "Serial only works",
+            "Only timers disabled",
+            "Only external disabled",
+          ],
+          correct: 1,
+          explanation: "EA = 0 disables all interrupts globally.",
+        },
+        {
+          question: "The interrupt flag for Timer 0 is:",
+          options: ["IE0", "TF1", "TF0", "TI", "RI"],
+          correct: 2,
+          explanation: "TF0 is the Timer 0 overflow flag.",
+        },
+        {
+          question:
+            "Which register determines the edge or level triggering of EX0?",
+          options: ["IE", "IP", "PSW", "TCON", "PCON"],
+          correct: 3,
+          explanation: "TCON bits IT0 and IT1 set edge or level triggering.",
+        },
+        {
+          question: "How many bytes is the stack pushed during an interrupt?",
+          options: ["4", "2", "1", "6", "8"],
+          correct: 1,
+          explanation:
+            "Only the 2-byte Program Counter is pushed on the stack.",
+        },
+        {
+          question: "Timer interrupts are generated on:",
+          options: [
+            "Compare match",
+            "External edge",
+            "Underflow",
+            "Overflow",
+            "Baud rate completion",
+          ],
+          correct: 3,
+          explanation: "Timer interrupt occurs on overflow of TLx/THx.",
+        },
+        {
+          question:
+            "What is the main role of the TCON register regarding interrupts?",
+          options: [
+            "Enables priority",
+            "Enables interrupts",
+            "Sets baud rate",
+            "Controls interrupt triggering (level/edge)",
+            "Controls port access",
+          ],
+          correct: 3,
+          explanation: "IT0/IT1 in TCON control edge/level triggering.",
+        },
+        {
+          question:
+            "When multiple interrupts of different priorities occur, the 8051:",
+          options: [
+            "Halts",
+            "Services the highest priority one first",
+            "Ignores all but first",
+            "Jumps to random ISR",
+            "Flushes stack",
+          ],
+          correct: 1,
+          explanation:
+            "Priority is respected; higher-priority interrupt is serviced.",
+        },
+      ];
+
       let currentModel = questionsModel1;
-      let currentQuestion = 0;
-      let score = 0;
       let answered = Array(50).fill(false);
       let userAnswers = Array(50).fill(null);
       let wrongQuestions = [];
@@ -3361,6 +3940,7 @@
         if (modelSelect.value === "model3") currentModel = questionsModel3;
         if (modelSelect.value === "model4") currentModel = questionsModel4;
         if (modelSelect.value === "model5") currentModel = questionsModel5;
+        if (modelSelect.value === "model6") currentModel = questionsModel6;
         displayQuestion();
         updateScore();
         updateTable();
