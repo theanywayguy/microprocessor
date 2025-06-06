@@ -53,6 +53,7 @@
             <option value="model4">Model 4</option>
             <option value="model5">Model 5</option>
             <option value="model6">Model 6</option>
+            <option value="model7">Model 7</option>
           </select>
         </div>
         <div id="score" class="text-lg text-gray-700 mb-4">Score: 0/50</div>
@@ -3795,6 +3796,631 @@
             "Priority is respected; higher-priority interrupt is serviced.",
         },
       ];
+      const questionsModel7 = [
+        {
+          question:
+            "What is the main purpose of the Interrupt Vector Table (IVT) in the 8086?",
+          options: [
+            "To manage the processor's clock speed.",
+            "To hold addresses of interrupt service routines.",
+            "To allocate memory for data storage.",
+            "To store the operating system code.",
+            "To handle I/O device communication.",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that the IVT contains 256 vectors, each with 4 bytes (IP and CS) to store the addresses of interrupt service routines, enabling the 8086 to locate ISRs.",
+        },
+        {
+          question:
+            "Which interrupt type in the 8086 cannot be masked by the Interrupt Flag (IF)?",
+          options: ["Exception", "INTR", "Timer Interrupt", "NMI", "INT n"],
+          correct: 3,
+          explanation:
+            "The document specifies that the Non-Maskable Interrupt (NMI), associated with INT 2, cannot be masked by the IF, making it the highest priority interrupt.",
+        },
+        {
+          question:
+            "What is the role of the IRET instruction in the 8086 interrupt process?",
+          options: [
+            "To disable all interrupts.",
+            "To restore the saved FLAGS, CS, and IP from the stack.",
+            "To initiate an interrupt.",
+            "To load a new program into memory.",
+            "To reset the processor.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the IRET instruction at the end of an ISR pops the saved FLAGS, CS, and IP from the stack, returning control to the main program.",
+        },
+        {
+          question: "How many bytes does the 8086 IVT occupy in memory?",
+          options: [
+            "512 bytes",
+            "2048 bytes",
+            "1024 bytes",
+            "256 bytes",
+            "4096 bytes",
+          ],
+          correct: 2,
+          explanation:
+            "The document notes that the IVT, with 256 vectors of 4 bytes each, occupies 1024 bytes (1 KB), starting at address 00000H.",
+        },
+        {
+          question:
+            "Which DOS function call terminates a program using INT 21H?",
+          options: ["AH = 4CH", "AH = 01H", "AH = 02H", "AH = 09H", "AH = 0AH"],
+          correct: 0,
+          explanation:
+            "The document lists INT 21H with AH = 4CH as the function to terminate a program, optionally setting a return code in AL.",
+        },
+        {
+          question:
+            "What is the purpose of the ALE signal in the 8086 memory interface?",
+          options: [
+            "To control data read/write operations.",
+            "To separate address and data on the multiplexed bus.",
+            "To select the memory chip.",
+            "To reset the memory controller.",
+            "To synchronize the clock.",
+          ],
+          correct: 1,
+          explanation:
+            "The document describes the ALE (Address Latch Enable) signal as activating the latch to separate address and data from the AD0-AD15 lines.",
+        },
+        {
+          question:
+            "How many address lines are needed for a 128KB RAM in the 8086 system?",
+          options: ["16", "18", "17", "14", "15"],
+          correct: 2,
+          explanation:
+            "The document calculates that 128KB (2^17) requires 17 address lines to address all memory locations in the RAM configuration.",
+        },
+        {
+          question:
+            "Which component is used to generate Chip Select signals in the 8086 memory design?",
+          options: [
+            "8259 PIC",
+            "74138 Decoder",
+            "8282 Latch",
+            "8286 Transceiver",
+            "8255 PPI",
+          ],
+          correct: 1,
+          explanation:
+            "The document mentions the 74138 decoder as a 3:8 device that generates Chip Select signals based on upper address bits.",
+        },
+        {
+          question:
+            "What is the function of the 8286 transceiver in the 8086 system?",
+          options: [
+            "To latch address data.",
+            "To control the direction of data flow.",
+            "To decode memory addresses.",
+            "To generate clock signals.",
+            "To store interrupt vectors.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the 8286 transceiver manages the direction of data flow in bidirectional communication between the processor and memory.",
+        },
+        {
+          question:
+            "Which I/O mapping method uses the IN and OUT instructions in the 8086?",
+          options: [
+            "Interrupt Driven I/O",
+            "I/O Mapped I/O",
+            "Memory Mapped I/O",
+            "Direct Memory Access",
+            "Programmed I/O",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that I/O Mapped I/O uses a 64KB address space and relies on IN and OUT instructions for device communication.",
+        },
+        {
+          question: "What is a disadvantage of Programmed I/O in the 8086?",
+          options: [
+            "It cannot handle multiple devices.",
+            "It wastes CPU time due to polling.",
+            "It requires complex hardware.",
+            "It has a high data transfer rate.",
+            "It eliminates interrupt usage.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that Programmed I/O wastes CPU time because the processor continuously polls devices to check for data readiness.",
+        },
+        {
+          question: "Which DMA mode transfers all data in a single burst?",
+          options: [
+            "DMA Read",
+            "Cycle Stealing",
+            "Burst Mode",
+            "Transparent Mode",
+            "DMA Write",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes Burst Mode as a DMA transfer type where all data is transferred in one continuous operation, halting the CPU temporarily.",
+        },
+        {
+          question:
+            "What is the purpose of the DRQ signal in the 8257 DMA controller?",
+          options: [
+            "To enable memory read.",
+            "To request a DMA operation.",
+            "To release bus control.",
+            "To reset the controller.",
+            "To acknowledge data transfer.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the DRQ (DMA Request) signal is used by an I/O device to request a DMA operation from the 8257 controller.",
+        },
+        {
+          question: "Which serial protocol uses two wires: SDA and SCL?",
+          options: ["USB", "RS-232", "SPI", "UART", "I2C"],
+          correct: 4,
+          explanation:
+            "The document identifies I2C as a two-wire protocol using SDA (data) and SCL (clock) for communication with multiple devices.",
+        },
+        {
+          question:
+            "What is the maximum number of devices supported by I2C with 7-bit addressing?",
+          options: ["256", "512", "64", "128", "1024"],
+          correct: 3,
+          explanation:
+            "The document states that I2C with 7-bit addressing supports up to 128 devices, though some addresses are reserved.",
+        },
+        {
+          question:
+            "Which SPI signal carries data from the master to the slave?",
+          options: ["SS", "SCLK", "RX", "MISO", "MOSI"],
+          correct: 4,
+          explanation:
+            "The document describes MOSI (Master Out Slave In) as the signal that carries data from the master to the slave in SPI communication.",
+        },
+        {
+          question: "What is a key feature of the UART protocol?",
+          options: [
+            "It supports multiple masters.",
+            "It is asynchronous with start and stop bits.",
+            "It uses a synchronous clock.",
+            "It has a high-speed limit of 10 Mbps.",
+            "It requires four wires.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that UART is an asynchronous protocol, using start and stop bits without a dedicated clock line.",
+        },
+        {
+          question: "Which USB version provides a speed of 20 Gbps?",
+          options: ["USB 1.0", "USB 3.0", "USB 2.0", "USB 3.2", "USB 4.0"],
+          correct: 3,
+          explanation:
+            "The document lists USB 3.2 as offering a speed of 20 Gbps (SuperSpeed), an improvement over USB 3.0's 5 Gbps.",
+        },
+        {
+          question:
+            "What is the typical maximum distance for RS-232 communication?",
+          options: [
+            "50 meters",
+            "100 meters",
+            "15 meters",
+            "5 meters",
+            "200 meters",
+          ],
+          correct: 2,
+          explanation:
+            "The document specifies that RS-232 has a typical maximum distance of 15 meters, depending on the baud rate and cable quality.",
+        },
+        {
+          question:
+            "Which pin on a DB9 connector is used for ground in RS-232?",
+          options: ["Pin 8", "Pin 7", "Pin 5", "Pin 3", "Pin 2"],
+          correct: 2,
+          explanation:
+            "The document lists Pin 5 as the ground (GND) pin on a DB9 connector for RS-232 communication.",
+        },
+        {
+          question:
+            "How many interrupt request lines does a single 8259 PIC provide?",
+          options: ["12", "16", "4", "24", "8"],
+          correct: 4,
+          explanation:
+            "The document states that a single 8259 Programmable Interrupt Controller provides 8 interrupt request lines.",
+        },
+        {
+          question: "What does the IMR register do in the 8259 PIC?",
+          options: [
+            "Holds incoming interrupt requests.",
+            "Indicates which interrupts are masked.",
+            "Stores current interrupt service routines.",
+            "Prioritizes interrupt handling.",
+            "Acknowledges interrupt completion.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the IMR (Interrupt Mask Register) in the 8259 PIC indicates which interrupts are disabled or masked.",
+        },
+        {
+          question:
+            "Which port of the 8255 PPI can be split for handshake signals?",
+          options: ["Port B", "Port A", "Port C", "Port D", "Port E"],
+          correct: 2,
+          explanation:
+            "The document notes that Port C of the 8255 can be divided into upper (PC4-PC7) and lower (PC0-PC3) halves for handshake and control signals.",
+        },
+        {
+          question:
+            "Which 8255 mode requires handshake signals for data transfer?",
+          options: ["Mode 3", "Mode 0", "Mode 1", "Mode 2", "Mode 4"],
+          correct: 2,
+          explanation:
+            "The document describes Mode 1 of the 8255 as supporting handshake I/O, using Port C for synchronization signals.",
+        },
+        {
+          question:
+            "Which 8254 mode generates a periodic signal for rate generation?",
+          options: ["Mode 4", "Mode 1", "Mode 2", "Mode 3", "Mode 0"],
+          correct: 2,
+          explanation:
+            "The document identifies Mode 2 of the 8254 as the Rate Generator mode, producing a periodic signal for applications like frequency division.",
+        },
+        {
+          question: "What is the maximum count value for a 8254 counter?",
+          options: ["131071", "65535", "1023", "255", "262143"],
+          correct: 1,
+          explanation:
+            "The document specifies that each 8254 counter is 16-bit, allowing a maximum count of 65535.",
+        },
+        {
+          question: "Which DMA transfer type intermittently pauses the CPU?",
+          options: [
+            "Transparent Mode",
+            "Burst Mode",
+            "Cycle Stealing",
+            "DMA Read",
+            "DMA Write",
+          ],
+          correct: 2,
+          explanation:
+            "The document describes Cycle Stealing as a DMA mode where the CPU is paused briefly for each data transfer, allowing shared bus access.",
+        },
+        {
+          question: "What is the purpose of the OUT pin in the 8254 PIT?",
+          options: [
+            "To select the counter mode.",
+            "To output the counter result or signal.",
+            "To input the clock signal.",
+            "To control the counter operation.",
+            "To reset the timer.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the OUT pin of the 8254 outputs a signal when the counter completes its operation or reaches a specific state.",
+        },
+        {
+          question:
+            "Which bit in the 8255 control word sets the mode for Group A?",
+          options: ["D7", "D5", "D6", "D0", "D4"],
+          correct: 2,
+          explanation:
+            "The document indicates that bits D6 and D5 in the 8255 control word determine the mode for Group A (e.g., Mode 0, 1, or 2).",
+        },
+        {
+          question:
+            "Which serial protocol is best suited for high-speed sensor communication?",
+          options: ["RS-232", "I2C", "UART", "USB", "SPI"],
+          correct: 4,
+          explanation:
+            "The document highlights SPI as ideal for high-speed applications like sensors and displays due to its 10 Mbps capability.",
+        },
+        {
+          question:
+            "What is the starting address of the Interrupt Vector Table (IVT) in the 8086?",
+          options: ["00000H", "10000H", "20000H", "F0000H", "FFFF0H"],
+          correct: 0,
+          explanation:
+            "The document specifies that the IVT starts at memory address 00000H, occupying the first 1 KB of memory for 256 interrupt vectors.",
+        },
+        {
+          question:
+            "Which interrupt is triggered by a divide-by-zero error in the 8086?",
+          options: ["INT 0", "INT 1", "INT 2", "INT 3", "INT 4"],
+          correct: 1,
+          explanation:
+            "The document lists INT 0 as the interrupt triggered by a divide-by-zero error, classified as an exception interrupt.",
+        },
+        {
+          question: "What does the 8086 do after receiving an INTR signal?",
+          options: [
+            "Resets the processor.",
+            "Sends an acknowledgment via INTA.",
+            "Immediately executes the ISR.",
+            "Disables all memory access.",
+            "Stops the clock signal.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that upon receiving an INTR signal, the 8086 sends an acknowledgment via the INTA pin to receive the interrupt vector from the 8259 PIC.",
+        },
+        {
+          question:
+            "What is the role of the FLAGS register during an 8086 interrupt?",
+          options: [
+            "Stores the interrupt vector.",
+            "Controls the interrupt priority.",
+            "Is saved to the stack with CS and IP.",
+            "Loads the ISR address.",
+            "Resets the interrupt system.",
+          ],
+          correct: 3,
+          explanation:
+            "The document states that during an interrupt, the FLAGS register, along with CS and IP, is pushed onto the stack to preserve the processor state.",
+        },
+        {
+          question:
+            "Which DOS interrupt function displays a string on the screen?",
+          options: [
+            "INT 21H, AH = 01H",
+            "INT 21H, AH = 02H",
+            "INT 21H, AH = 09H",
+            "INT 21H, AH = 0AH",
+            "INT 21H, AH = 4CH",
+          ],
+          correct: 4,
+          explanation:
+            "The document specifies that INT 21H with AH = 09H displays a string stored in DX, terminated by a '$' character.",
+        },
+        {
+          question:
+            "How many data lines are used by the 8086 to interface with memory?",
+          options: ["8", "16", "20", "32", "64"],
+          correct: 1,
+          explanation:
+            "The document indicates that the 8086 uses 16 data lines (D0-D15) for communication with memory, enabling word-sized data transfers.",
+        },
+        {
+          question:
+            "What is the purpose of the BHE signal in the 8086 memory interface?",
+          options: [
+            "To enable the clock.",
+            "To select the high byte of the data bus.",
+            "To reset the memory chip.",
+            "To latch the address.",
+            "To control interrupt priority.",
+          ],
+          correct: 2,
+          explanation:
+            "The document explains that the BHE (Bus High Enable) signal is used to select the high byte (D8-D15) of the 16-bit data bus during memory operations.",
+        },
+        {
+          question:
+            "Which memory chip is selected when A0 = 0 in the 8086 system?",
+          options: [
+            "Odd chip",
+            "Even chip",
+            "ROM chip",
+            "RAM chip",
+            "EPROM chip",
+          ],
+          correct: 1,
+          explanation:
+            "The document states that when A0 = 0, the even memory chip is selected, and when A0 = 1, the odd chip is selected.",
+        },
+        {
+          question:
+            "What is the address range for the EPROM in the 8086 system design?",
+          options: [
+            "00000H - 1FFFFH",
+            "20000H - 3FFFFH",
+            "F0000H - FFFFFH",
+            "40000H - 5FFFFH",
+            "60000H - 7FFFFH",
+          ],
+          correct: 3,
+          explanation:
+            "The document specifies that the EPROM address range in the system is F0000H to FFFFFH, covering the upper 64KB of memory.",
+        },
+        {
+          question:
+            "Which control line initiates a memory read operation in the 8086?",
+          options: ["MEMW", "IOR", "MEMR", "IOW", "CS"],
+          correct: 2,
+          explanation:
+            "The document lists MEMR (Memory Read) as the control line that initiates a read operation from memory in the 8086 system.",
+        },
+        {
+          question:
+            "What is the benefit of I/O Mapped I/O over Memory Mapped I/O?",
+          options: [
+            "It uses more memory.",
+            "It requires fewer address lines.",
+            "It supports more devices.",
+            "It has slower data transfer.",
+            "It eliminates interrupts.",
+          ],
+          correct: 1,
+          explanation:
+            "The document notes that I/O Mapped I/O uses a separate 64KB address space, requiring fewer address lines than Memory Mapped I/O.",
+        },
+        {
+          question:
+            "Which I/O method allows the CPU to perform other tasks while waiting for data?",
+          options: [
+            "Programmed I/O",
+            "Memory Mapped I/O",
+            "Interrupt Driven I/O",
+            "I/O Mapped I/O",
+            "Direct Memory Access",
+          ],
+          correct: 4,
+          explanation:
+            "The document highlights that Interrupt Driven I/O allows the CPU to work on other tasks until an interrupt signals data readiness.",
+        },
+        {
+          question:
+            "What is the maximum data transfer size per channel in the 8257 DMA controller?",
+          options: ["8 KB", "16 KB", "32 KB", "64 KB", "128 KB"],
+          correct: 2,
+          explanation:
+            "The document states that the 8257 supports 14-bit counting, allowing a maximum transfer of 16 KB per channel.",
+        },
+        {
+          question:
+            "Which signal does the 8086 send to acknowledge a DMA request?",
+          options: ["DRQ", "DACK", "HRQ", "HLDA", "INTA"],
+          correct: 3,
+          explanation:
+            "The document explains that the HLDA (Hold Acknowledge) signal is sent by the 8086 to grant bus control to the DMA controller.",
+        },
+        {
+          question: "What is the clock signal line in the I2C protocol?",
+          options: ["SDA", "SCL", "MOSI", "SS", "MISO"],
+          correct: 1,
+          explanation:
+            "The document describes I2C as using SCL (Serial Clock) for the clock signal and SDA for data transmission.",
+        },
+        {
+          question: "What is the typical maximum speed of the I2C protocol?",
+          options: ["100 Kbps", "400 Kbps", "1 Mbps", "10 Mbps", "20 Mbps"],
+          correct: 2,
+          explanation:
+            "The document specifies that the I2C protocol supports speeds up to 400 Kbps in standard configurations.",
+        },
+        {
+          question:
+            "Which SPI signal carries data from the slave to the master?",
+          options: ["MOSI", "SCLK", "SS", "MISO", "RX"],
+          correct: 3,
+          explanation:
+            "The document describes MISO (Master In Slave Out) as the signal that carries data from the slave to the master in SPI communication.",
+        },
+        {
+          question:
+            "What is the typical baud rate limit for UART communication?",
+          options: ["115 Kbps", "1 Mbps", "10 Mbps", "100 Mbps", "5 Gbps"],
+          correct: 0,
+          explanation:
+            "The document notes that UART typically supports baud rates up to 115 Kbps due to its asynchronous nature.",
+        },
+        {
+          question: "Which USB version supports a speed of 5 Gbps?",
+          options: ["USB 1.0", "USB 2.0", "USB 3.0", "USB 3.2", "USB 4.0"],
+          correct: 2,
+          explanation:
+            "The document lists USB 3.0 as providing a speed of 5 Gbps, referred to as SuperSpeed.",
+        },
+        {
+          question:
+            "What is the voltage level for logic 1 in the RS-232 protocol?",
+          options: [
+            "+3V to +15V",
+            "-3V to -15V",
+            "0V to +5V",
+            "-5V to 0V",
+            "+10V to +20V",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that in RS-232, logic 1 is represented by -3V to -15V, while logic 0 is +3V to +15V.",
+        },
+        {
+          question: "Which pin on a DB9 connector transmits data in RS-232?",
+          options: ["Pin 2", "Pin 3", "Pin 5", "Pin 7", "Pin 8"],
+          correct: 2,
+          explanation:
+            "The document lists Pin 3 as the TX (transmit) pin on a DB9 connector for RS-232 communication.",
+        },
+        {
+          question: "What is the purpose of the ISR register in the 8259 PIC?",
+          options: [
+            "To mask interrupts.",
+            "To store the current interrupt being serviced.",
+            "To hold incoming interrupt requests.",
+            "To prioritize interrupt levels.",
+            "To reset the controller.",
+          ],
+          correct: 1,
+          explanation:
+            "The document explains that the ISR (In-Service Register) in the 8259 PIC tracks the interrupt currently being serviced.",
+        },
+        {
+          question: "How many 8-bit ports does the 8255 PPI provide?",
+          options: ["1", "2", "3", "4", "5"],
+          correct: 3,
+          explanation:
+            "The document states that the 8255 Programmable Peripheral Interface provides three 8-bit ports: Port A, Port B, and Port C.",
+        },
+        {
+          question:
+            "Which 8255 mode supports bidirectional data transfer on Port A?",
+          options: ["Mode 0", "Mode 1", "Mode 2", "Mode 3", "Mode 4"],
+          correct: 2,
+          explanation:
+            "The document describes Mode 2 of the 8255 as supporting bidirectional data transfer on Port A with handshake signals via Port C.",
+        },
+        {
+          question: "What is the function of the CLK pin in the 8254 PIT?",
+          options: [
+            "To control the counter's operation.",
+            "To output the counter result.",
+            "To provide the clock input for the counter.",
+            "To select the counter mode.",
+            "To reset the timer.",
+          ],
+          correct: 3,
+          explanation:
+            "The document explains that the CLK pin in the 8254 provides the clock input signal to drive the counter's operation.",
+        },
+        {
+          question:
+            "Which 8254 mode generates a one-shot pulse triggered by hardware?",
+          options: ["Mode 0", "Mode 1", "Mode 2", "Mode 3", "Mode 4"],
+          correct: 1,
+          explanation:
+            "The document identifies Mode 1 of the 8254 as the Hardware Retriggerable One-Shot mode, generating a pulse when triggered by the GATE signal.",
+        },
+        {
+          question: "How many channels does the 8257 DMA controller support?",
+          options: ["2", "4", "6", "8", "10"],
+          correct: 2,
+          explanation:
+            "The document states that the 8257 Programmable DMA Controller supports four DMA channels for data transfer.",
+        },
+        {
+          question:
+            "Which signal in SPI determines the clock polarity and phase?",
+          options: ["SCLK", "MOSI", "MISO", "SS", "CPOL/CPHA"],
+          correct: 4,
+          explanation:
+            "The document explains that CPOL (Clock Polarity) and CPHA (Clock Phase) define the SPI mode, controlling the clock's behavior.",
+        },
+        {
+          question:
+            "What is the purpose of the DACK signal in the 8257 DMA controller?",
+          options: [
+            "To request a DMA operation.",
+            "To acknowledge a DMA request.",
+            "To reset the controller.",
+            "To release bus control.",
+            "To enable memory write.",
+          ],
+          correct: 1,
+          explanation:
+            "The document specifies that the DACK (DMA Acknowledge) signal is sent by the 8257 to confirm that a DMA request has been granted.",
+        },
+        {
+          question:
+            "Which protocol is best for long-distance serial communication?",
+          options: ["I2C", "SPI", "UART", "RS-232", "USB"],
+          correct: 3,
+          explanation:
+            "The document notes that RS-232 supports communication over distances up to 15 meters, making it suitable for longer-distance serial applications.",
+        },
+      ];
 
       let currentModel = questionsModel1;
       let answered = Array(50).fill(false);
@@ -3941,6 +4567,7 @@
         if (modelSelect.value === "model4") currentModel = questionsModel4;
         if (modelSelect.value === "model5") currentModel = questionsModel5;
         if (modelSelect.value === "model6") currentModel = questionsModel6;
+        if (modelSelect.value === "model7") currentModel = questionsModel7;
         displayQuestion();
         updateScore();
         updateTable();
