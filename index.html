@@ -4101,13 +4101,14 @@
           explanation:
             "The document explains that the OUT pin of the 8254 outputs a signal when the counter completes its operation or reaches a specific state.",
         },
+
         {
           question:
             "Which bit in the 8255 control word sets the mode for Group A?",
           options: ["D7", "D5", "D6", "D0", "D4"],
           correct: 2,
           explanation:
-            "The document indicates that bits D6 and D5 in the 8255 control word determine the mode for Group A (e.g., Mode 0, 1, or 2).",
+            "Bits D6 and D5 in the control word determine the mode of Group A in the 8255.",
         },
         {
           question:
@@ -4115,7 +4116,7 @@
           options: ["RS-232", "I2C", "UART", "USB", "SPI"],
           correct: 4,
           explanation:
-            "The document highlights SPI as ideal for high-speed applications like sensors and displays due to its 10 Mbps capability.",
+            "SPI is well-suited for high-speed communication with sensors and peripherals, supporting speeds up to tens of Mbps.",
         },
         {
           question:
@@ -4123,15 +4124,15 @@
           options: ["00000H", "10000H", "20000H", "F0000H", "FFFF0H"],
           correct: 0,
           explanation:
-            "The document specifies that the IVT starts at memory address 00000H, occupying the first 1 KB of memory for 256 interrupt vectors.",
+            "The IVT in the 8086 starts at address 00000H and occupies the first 1 KB of memory.",
         },
         {
           question:
             "Which interrupt is triggered by a divide-by-zero error in the 8086?",
           options: ["INT 0", "INT 1", "INT 2", "INT 3", "INT 4"],
-          correct: 1,
+          correct: 0,
           explanation:
-            "The document lists INT 0 as the interrupt triggered by a divide-by-zero error, classified as an exception interrupt.",
+            "INT 0 is a predefined interrupt for divide-by-zero exceptions in the 8086.",
         },
         {
           question: "What does the 8086 do after receiving an INTR signal?",
@@ -4142,9 +4143,9 @@
             "Disables all memory access.",
             "Stops the clock signal.",
           ],
-          correct: 2,
+          correct: 1,
           explanation:
-            "The document explains that upon receiving an INTR signal, the 8086 sends an acknowledgment via the INTA pin to receive the interrupt vector from the 8259 PIC.",
+            "The 8086 sends an INTA (interrupt acknowledge) signal to fetch the interrupt vector.",
         },
         {
           question:
@@ -4156,9 +4157,9 @@
             "Loads the ISR address.",
             "Resets the interrupt system.",
           ],
-          correct: 3,
+          correct: 2,
           explanation:
-            "The document states that during an interrupt, the FLAGS register, along with CS and IP, is pushed onto the stack to preserve the processor state.",
+            "FLAGS, CS, and IP are pushed to the stack to preserve CPU state during interrupts.",
         },
         {
           question:
@@ -4170,9 +4171,9 @@
             "INT 21H, AH = 0AH",
             "INT 21H, AH = 4CH",
           ],
-          correct: 4,
+          correct: 2,
           explanation:
-            "The document specifies that INT 21H with AH = 09H displays a string stored in DX, terminated by a '$' character.",
+            "AH = 09H under INT 21H displays a string in memory terminated with '$'.",
         },
         {
           question:
@@ -4180,7 +4181,7 @@
           options: ["8", "16", "20", "32", "64"],
           correct: 1,
           explanation:
-            "The document indicates that the 8086 uses 16 data lines (D0-D15) for communication with memory, enabling word-sized data transfers.",
+            "8086 has 16 data lines (D0–D15) for memory/data transfer.",
         },
         {
           question:
@@ -4192,9 +4193,9 @@
             "To latch the address.",
             "To control interrupt priority.",
           ],
-          correct: 2,
+          correct: 1,
           explanation:
-            "The document explains that the BHE (Bus High Enable) signal is used to select the high byte (D8-D15) of the 16-bit data bus during memory operations.",
+            "BHE (Bus High Enable) selects the high byte of the 16-bit data bus.",
         },
         {
           question:
@@ -4208,7 +4209,7 @@
           ],
           correct: 1,
           explanation:
-            "The document states that when A0 = 0, the even memory chip is selected, and when A0 = 1, the odd chip is selected.",
+            "A0 = 0 selects the even memory bank in the 8086 system.",
         },
         {
           question:
@@ -4220,9 +4221,9 @@
             "40000H - 5FFFFH",
             "60000H - 7FFFFH",
           ],
-          correct: 3,
+          correct: 2,
           explanation:
-            "The document specifies that the EPROM address range in the system is F0000H to FFFFFH, covering the upper 64KB of memory.",
+            "EPROM typically resides in the upper 64 KB of memory from F0000H to FFFFFH.",
         },
         {
           question:
@@ -4230,7 +4231,7 @@
           options: ["MEMW", "IOR", "MEMR", "IOW", "CS"],
           correct: 2,
           explanation:
-            "The document lists MEMR (Memory Read) as the control line that initiates a read operation from memory in the 8086 system.",
+            "MEMR (Memory Read) signal is used to initiate memory read cycles.",
         },
         {
           question:
@@ -4244,7 +4245,7 @@
           ],
           correct: 1,
           explanation:
-            "The document notes that I/O Mapped I/O uses a separate 64KB address space, requiring fewer address lines than Memory Mapped I/O.",
+            "I/O Mapped I/O uses a smaller address space (64 KB), thus fewer address lines.",
         },
         {
           question:
@@ -4256,17 +4257,17 @@
             "I/O Mapped I/O",
             "Direct Memory Access",
           ],
-          correct: 4,
+          correct: 2,
           explanation:
-            "The document highlights that Interrupt Driven I/O allows the CPU to work on other tasks until an interrupt signals data readiness.",
+            "Interrupt Driven I/O frees the CPU to perform other tasks until an interrupt occurs.",
         },
         {
           question:
             "What is the maximum data transfer size per channel in the 8257 DMA controller?",
           options: ["8 KB", "16 KB", "32 KB", "64 KB", "128 KB"],
-          correct: 2,
+          correct: 1,
           explanation:
-            "The document states that the 8257 supports 14-bit counting, allowing a maximum transfer of 16 KB per channel.",
+            "8257 has a 14-bit counter, so each channel can transfer up to 16 KB.",
         },
         {
           question:
@@ -4274,21 +4275,20 @@
           options: ["DRQ", "DACK", "HRQ", "HLDA", "INTA"],
           correct: 3,
           explanation:
-            "The document explains that the HLDA (Hold Acknowledge) signal is sent by the 8086 to grant bus control to the DMA controller.",
+            "HLDA (Hold Acknowledge) is sent by 8086 to grant bus access to the DMA controller.",
         },
         {
           question: "What is the clock signal line in the I2C protocol?",
           options: ["SDA", "SCL", "MOSI", "SS", "MISO"],
           correct: 1,
           explanation:
-            "The document describes I2C as using SCL (Serial Clock) for the clock signal and SDA for data transmission.",
+            "SCL (Serial Clock Line) provides the clock signal in I2C.",
         },
         {
           question: "What is the typical maximum speed of the I2C protocol?",
           options: ["100 Kbps", "400 Kbps", "1 Mbps", "10 Mbps", "20 Mbps"],
-          correct: 2,
-          explanation:
-            "The document specifies that the I2C protocol supports speeds up to 400 Kbps in standard configurations.",
+          correct: 1,
+          explanation: "Standard I2C supports up to 400 Kbps in fast mode.",
         },
         {
           question:
@@ -4296,7 +4296,7 @@
           options: ["MOSI", "SCLK", "SS", "MISO", "RX"],
           correct: 3,
           explanation:
-            "The document describes MISO (Master In Slave Out) as the signal that carries data from the slave to the master in SPI communication.",
+            "MISO (Master In Slave Out) carries data from the slave to the master.",
         },
         {
           question:
@@ -4304,14 +4304,14 @@
           options: ["115 Kbps", "1 Mbps", "10 Mbps", "100 Mbps", "5 Gbps"],
           correct: 0,
           explanation:
-            "The document notes that UART typically supports baud rates up to 115 Kbps due to its asynchronous nature.",
+            "UART typically operates up to 115200 bps (115 Kbps) in standard configs.",
         },
         {
           question: "Which USB version supports a speed of 5 Gbps?",
           options: ["USB 1.0", "USB 2.0", "USB 3.0", "USB 3.2", "USB 4.0"],
           correct: 2,
           explanation:
-            "The document lists USB 3.0 as providing a speed of 5 Gbps, referred to as SuperSpeed.",
+            "USB 3.0 supports SuperSpeed mode with 5 Gbps bandwidth.",
         },
         {
           question:
@@ -4324,15 +4324,14 @@
             "+10V to +20V",
           ],
           correct: 1,
-          explanation:
-            "The document specifies that in RS-232, logic 1 is represented by -3V to -15V, while logic 0 is +3V to +15V.",
+          explanation: "RS-232 uses -3V to -15V to represent logic 1.",
         },
         {
           question: "Which pin on a DB9 connector transmits data in RS-232?",
           options: ["Pin 2", "Pin 3", "Pin 5", "Pin 7", "Pin 8"],
-          correct: 2,
+          correct: 1,
           explanation:
-            "The document lists Pin 3 as the TX (transmit) pin on a DB9 connector for RS-232 communication.",
+            "Pin 3 is TXD (Transmit Data) on DB9 connectors using DTE wiring.",
         },
         {
           question: "What is the purpose of the ISR register in the 8259 PIC?",
@@ -4345,14 +4344,13 @@
           ],
           correct: 1,
           explanation:
-            "The document explains that the ISR (In-Service Register) in the 8259 PIC tracks the interrupt currently being serviced.",
+            "ISR (In-Service Register) keeps track of the currently serviced interrupt.",
         },
         {
           question: "How many 8-bit ports does the 8255 PPI provide?",
           options: ["1", "2", "3", "4", "5"],
-          correct: 3,
-          explanation:
-            "The document states that the 8255 Programmable Peripheral Interface provides three 8-bit ports: Port A, Port B, and Port C.",
+          correct: 2,
+          explanation: "8255 provides three 8-bit ports: A, B, and C.",
         },
         {
           question:
@@ -4360,7 +4358,7 @@
           options: ["Mode 0", "Mode 1", "Mode 2", "Mode 3", "Mode 4"],
           correct: 2,
           explanation:
-            "The document describes Mode 2 of the 8255 as supporting bidirectional data transfer on Port A with handshake signals via Port C.",
+            "Mode 2 allows bidirectional data on Port A with handshake via Port C.",
         },
         {
           question: "What is the function of the CLK pin in the 8254 PIT?",
@@ -4371,9 +4369,9 @@
             "To select the counter mode.",
             "To reset the timer.",
           ],
-          correct: 3,
+          correct: 2,
           explanation:
-            "The document explains that the CLK pin in the 8254 provides the clock input signal to drive the counter's operation.",
+            "CLK pin provides the input clock signal to the 8254 counters.",
         },
         {
           question:
@@ -4381,14 +4379,13 @@
           options: ["Mode 0", "Mode 1", "Mode 2", "Mode 3", "Mode 4"],
           correct: 1,
           explanation:
-            "The document identifies Mode 1 of the 8254 as the Hardware Retriggerable One-Shot mode, generating a pulse when triggered by the GATE signal.",
+            "Mode 1 is the Hardware Retriggerable One-Shot mode in 8254.",
         },
         {
           question: "How many channels does the 8257 DMA controller support?",
           options: ["2", "4", "6", "8", "10"],
-          correct: 2,
-          explanation:
-            "The document states that the 8257 Programmable DMA Controller supports four DMA channels for data transfer.",
+          correct: 1,
+          explanation: "8257 supports 4 DMA channels, each programmable.",
         },
         {
           question:
@@ -4396,7 +4393,7 @@
           options: ["SCLK", "MOSI", "MISO", "SS", "CPOL/CPHA"],
           correct: 4,
           explanation:
-            "The document explains that CPOL (Clock Polarity) and CPHA (Clock Phase) define the SPI mode, controlling the clock's behavior.",
+            "CPOL and CPHA define SPI mode by controlling clock polarity and phase.",
         },
         {
           question:
@@ -4410,7 +4407,7 @@
           ],
           correct: 1,
           explanation:
-            "The document specifies that the DACK (DMA Acknowledge) signal is sent by the 8257 to confirm that a DMA request has been granted.",
+            "DACK is the acknowledgment from 8257 DMA to indicate granted access.",
         },
         {
           question:
@@ -4418,7 +4415,7 @@
           options: ["I2C", "SPI", "UART", "RS-232", "USB"],
           correct: 3,
           explanation:
-            "The document notes that RS-232 supports communication over distances up to 15 meters, making it suitable for longer-distance serial applications.",
+            "RS-232 supports up to 15m distances and is ideal for long serial links.",
         },
       ];
 
@@ -4443,21 +4440,21 @@
       function displayQuestion() {
         const q = currentModel[currentQuestion];
         questionArea.innerHTML = `
-          <p class="text-lg text-gray-800">${currentQuestion + 1}. ${
+                <p class="text-lg text-gray-800">${currentQuestion + 1}. ${
           q.question
         }</p>
-          <ul class="space-y-2 mt-2">
-            ${q.options
-              .map(
-                (opt, i) => `
-              <li><label class="flex items-center"><input type="radio" name="answer" value="${i}" ${
-                  answered[currentQuestion] ? "disabled" : ""
-                } class="mr-2"> ${opt}</label></li>
-            `
-              )
-              .join("")}
-          </ul>
-        `;
+                <ul class="space-y-2 mt-2">
+                  ${q.options
+                    .map(
+                      (opt, i) => `
+                    <li><label class="flex items-center"><input type="radio" name="answer" value="${i}" ${
+                        answered[currentQuestion] ? "disabled" : ""
+                      } class="mr-2"> ${opt}</label></li>
+                  `
+                    )
+                    .join("")}
+                </ul>
+              `;
         explanationDiv.classList.add("hidden");
         submitBtn.textContent = answered[currentQuestion]
           ? "Next"
@@ -4488,10 +4485,10 @@
                 : "incorrect"
               : "";
             return `
-            <tr class="${i % 2 === 0 ? "bg-gray-50" : "bg-white"}">
-              <td class="border p-2">${i + 1}</td>
-              <td class="border p-2 ${className}">${status}</td>
-            </tr>`;
+                  <tr class="${i % 2 === 0 ? "bg-gray-50" : "bg-white"}">
+                    <td class="border p-2">${i + 1}</td>
+                    <td class="border p-2 ${className}">${status}</td>
+                  </tr>`;
           })
           .join("");
       }
